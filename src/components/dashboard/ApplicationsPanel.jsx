@@ -5,12 +5,12 @@ const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
 const OUTCOMES = ['Avslag', 'Fått jobben', 'Trukket søknad']
 
 const STAT_CARDS = [
-  { key: 'total',       label: 'Totalt',      color: 'border-t-[#1E3A6B]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(30,58,107,0.25)]' },
-  { key: 'active',      label: 'Aktive',      color: 'border-t-[#3B82F6]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)]' },
-  { key: 'Intervju',    label: 'Intervju',    color: 'border-t-[#10B981]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(16,185,129,0.3)]' },
-  { key: 'Tilbud',      label: 'Tilbud',      color: 'border-t-[#059669]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(5,150,105,0.3)]' },
-  { key: 'Fått jobben', label: 'Fått jobben', color: 'border-t-[#059669]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(5,150,105,0.3)]' },
-  { key: 'Avslag',      label: 'Avslag',      color: 'border-t-[#EF4444]', hoverShadow: 'hover:shadow-[0_6px_20px_rgba(239,68,68,0.3)]' },
+  { key: 'total',       label: 'Totalt',      color: 'border-t-[#1E3A6B]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(30,58,107,0.2)]' },
+  { key: 'active',      label: 'Aktive',      color: 'border-t-[#3B82F6]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(59,130,246,0.25)]' },
+  { key: 'Intervju',    label: 'Intervju',    color: 'border-t-[#10B981]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(16,185,129,0.25)]' },
+  { key: 'Tilbud',      label: 'Tilbud',      color: 'border-t-[#059669]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(5,150,105,0.25)]' },
+  { key: 'Fått jobben', label: 'Fått jobben', color: 'border-t-[#059669]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(5,150,105,0.25)]' },
+  { key: 'Avslag',      label: 'Avslag',      color: 'border-t-[#EF4444]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(239,68,68,0.25)]' },
 ]
 
 function CardSkeleton() {
