@@ -1,16 +1,17 @@
 import { useMemo } from 'react'
 
-const OUTCOME_COLOR = {
-  'Avslag':         '#EF4444',
-  'Fått jobben':    '#059669',
-  'Trukket søknad': '#94A3B8',
-}
-const OUTCOMES = ['Avslag', 'Fått jobben', 'Trukket søknad']
-
 const TIPS = [
   { href: 'https://www.kickresume.com/', icon: '📄', title: 'Kickresume', desc: 'Profesjonelle CV-maler som skiller seg ut og kommer gjennom ATS-filtre.' },
   { href: 'https://www.linkedin.com/premium/', icon: '💼', title: 'LinkedIn Premium', desc: 'Se hvem som har sett profilen din og ta kontakt med rekrutterere direkte.' },
   { href: 'https://www.udemy.com/', icon: '🎓', title: 'Udemy', desc: 'Lær nye ferdigheter som styrker søknaden — over 200 000 kurs tilgjengelig.' },
+]
+
+const FUNNEL_STAGES = [
+  { label: 'Sendt',        color: '#3B82F6' },
+  { label: 'Fikk svar',    color: '#F59E0B' },
+  { label: 'Intervju',     color: '#10B981' },
+  { label: 'Tilbud',       color: '#8B5CF6' },
+  { label: 'Fått jobben',  color: '#059669' },
 ]
 
 function getISOWeek(d) {
@@ -21,9 +22,20 @@ function getISOWeek(d) {
   return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7)
 }
 
+function formatDeadline(dateStr) {
+  const d = new Date(dateStr)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const diff = Math.round((d - today) / (24 * 3600 * 1000))
+  if (diff === 0) return 'I dag'
+  if (diff === 1) return 'I morgen'
+  return d.toLocaleDateString('nb-NO', { day: 'numeric', month: 'short' })
+}
+
 export default function StatisticsPanel({ hidden, counts, applications }) {
+  const total = applications.length
+
   const { svarrate, intervjurate } = useMemo(() => {
-    const total = applications.length
     if (total === 0) return { svarrate: null, intervjurate: null }
     const responded = applications.filter(a => a.status !== 'Sendt' || a.outcome).length
     const hadInterview = applications.filter(a =>
@@ -33,7 +45,19 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
       svarrate: Math.round((responded / total) * 100),
       intervjurate: Math.round((hadInterview / total) * 100),
     }
-  }, [applications])
+  }, [applications, total])
+
+  const funnelCounts = useMemo(() => {
+    const responded = applications.filter(a => a.status !== 'Sendt' || a.outcome).length
+    const interviewed = applications.filter(a =>
+      a.status === 'Intervju' || a.status === 'Tilbud' || a.outcome === 'Fått jobben'
+    ).length
+    const offered = applications.filter(a =>
+      a.status === 'Tilbud' || a.outcome === 'Fått jobben'
+    ).length
+    const hired = applications.filter(a => a.outcome === 'Fått jobben').length
+    return [total, responded, interviewed, offered, hired]
+  }, [applications, total])
 
   const weeklyData = useMemo(() => {
     const now = new Date()
@@ -58,9 +82,27 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
     return weeks
   }, [applications])
 
-  const maxWeekCount = Math.max(...weeklyData.map(w => w.count), 1)
-  const hasOutcomes = OUTCOMES.some(o => counts[o] > 0)
-  const empty = counts.total === 0
+  const displayWeeks = useMemo(() => {
+    const firstWithData = weeklyData.findIndex(w => w.count > 0)
+    if (firstWithData === -1) return weeklyData.slice(-4)
+    const start = Math.min(firstWithData, Math.max(weeklyData.length - 4, 0))
+    return weeklyData.slice(start)
+  }, [weeklyData])
+
+  const maxWeekCount = Math.max(...displayWeeks.map(w => w.count), 1)
+
+  const upcomingDeadlines = useMemo(() => {
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    const in14days = new Date(now.getTime() + 14 * 24 * 3600 * 1000)
+    return applications
+      .filter(a => {
+        if (!a.deadline || a.outcome) return false
+        const d = new Date(a.deadline)
+        return d >= now && d <= in14days
+      })
+      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+  }, [applications])
 
   return (
     <section
@@ -72,20 +114,80 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
     >
       <h2 className="text-xl font-bold text-[#1E3A6B] mb-6">Statistikk</h2>
 
+      {/* Kommende frister */}
+      {upcomingDeadlines.length > 0 && (
+        <div className="bg-[#FFF7ED] border border-[#FED7AA] rounded-xl p-4 mb-5">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#EA580C] mb-3">Frister de neste 14 dagene</p>
+          <div className="flex flex-col gap-2">
+            {upcomingDeadlines.map(a => {
+              const d = new Date(a.deadline)
+              const today = new Date()
+              today.setHours(0, 0, 0, 0)
+              const diff = Math.round((d - today) / (24 * 3600 * 1000))
+              const urgent = diff <= 2
+              return (
+                <div key={a.id} className="flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <span className="text-sm font-medium text-[#0F172A] truncate block">{a.company}</span>
+                    <span className="text-xs text-[#64748B] truncate block">{a.position}</span>
+                  </div>
+                  <span className={`text-xs font-semibold shrink-0 px-2 py-0.5 rounded-full ${
+                    urgent
+                      ? 'bg-[#FEE2E2] text-[#DC2626]'
+                      : 'bg-[#FED7AA] text-[#EA580C]'
+                  }`}>
+                    {formatDeadline(a.deadline)}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Nøkkeltall */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
         {[
-          { label: 'Totalt sendt',  value: counts.total,         suffix: '',                              color: '#1E3A6B', icon: '📋' },
-          { label: 'Svarrate',      value: svarrate  ?? '—',     suffix: svarrate  !== null ? '%' : '',   color: '#3B82F6', icon: '📬' },
-          { label: 'Intervjurate',  value: intervjurate ?? '—',  suffix: intervjurate !== null ? '%' : '', color: '#10B981', icon: '🤝' },
-          { label: 'Fått jobben',   value: counts['Fått jobben'], suffix: '',                             color: '#059669', icon: '🏆' },
-        ].map(({ label, value, suffix, color, icon }) => (
+          {
+            label: 'Totalt sendt',
+            value: total,
+            suffix: '',
+            sub: null,
+            color: '#1E3A6B',
+            icon: '📋',
+          },
+          {
+            label: 'Svarrate',
+            value: svarrate ?? '—',
+            suffix: svarrate !== null ? '%' : '',
+            sub: total > 0 ? `n=${total}` : null,
+            color: '#3B82F6',
+            icon: '📬',
+          },
+          {
+            label: 'Intervjurate',
+            value: intervjurate ?? '—',
+            suffix: intervjurate !== null ? '%' : '',
+            sub: total > 0 ? `n=${total}` : null,
+            color: '#10B981',
+            icon: '🤝',
+          },
+          {
+            label: 'Fått jobben',
+            value: counts['Fått jobben'],
+            suffix: '',
+            sub: null,
+            color: '#059669',
+            icon: '🏆',
+          },
+        ].map(({ label, value, suffix, sub, color, icon }) => (
           <div key={label} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
             <span className="text-base" aria-hidden="true">{icon}</span>
             <span className="text-2xl font-bold tabular-nums" style={{ color }}>
               {value}{suffix}
             </span>
             <span className="text-xs text-[#64748B] font-medium">{label}</span>
+            {sub && <span className="text-[10px] text-[#94A3B8]">{sub}</span>}
           </div>
         ))}
       </div>
@@ -94,13 +196,13 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
         {/* Søknader per uke */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5">
           <h3 className="font-semibold text-[#0F172A] mb-1">Søknader per uke</h3>
-          <p className="text-xs text-[#94A3B8] mb-5">Siste 8 uker</p>
-          {empty ? (
+          <p className="text-xs text-[#94A3B8] mb-5">Siste {displayWeeks.length} uker</p>
+          {total === 0 ? (
             <p className="text-sm text-[#64748B]">Ingen søknader ennå.</p>
           ) : (
             <div aria-hidden="true">
               <div className="flex items-end gap-1.5 h-20">
-                {weeklyData.map((w, i) => (
+                {displayWeeks.map((w, i) => (
                   <div key={i} className="flex flex-col items-center gap-1 flex-1 h-full justify-end">
                     <span className="text-[10px] text-[#64748B] tabular-nums leading-none font-medium">
                       {w.count > 0 ? w.count : ''}
@@ -116,7 +218,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
                 ))}
               </div>
               <div className="flex gap-1.5 mt-1.5">
-                {weeklyData.map((w, i) => (
+                {displayWeeks.map((w, i) => (
                   <div key={i} className="flex-1 text-center">
                     <span className="text-[9px] text-[#94A3B8] leading-none">{w.label}</span>
                   </div>
@@ -126,13 +228,37 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
           )}
         </div>
 
-        {/* Utfall */}
+        {/* Pipeline-funnel */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5">
-          <h3 className="font-semibold text-[#0F172A] mb-5">Utfall</h3>
-          {hasOutcomes ? (
-            <OutcomeChart counts={counts} />
+          <h3 className="font-semibold text-[#0F172A] mb-5">Pipeline</h3>
+          {total === 0 ? (
+            <p className="text-sm text-[#64748B]">Ingen søknader ennå.</p>
           ) : (
-            <p className="text-sm text-[#64748B]">Ingen avgjorte søknader ennå.</p>
+            <div className="flex flex-col gap-3" aria-hidden="true">
+              {FUNNEL_STAGES.map((stage, i) => {
+                const count = funnelCounts[i]
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0
+                return (
+                  <div key={stage.label}>
+                    <div className="flex justify-between text-sm mb-1.5">
+                      <span className="flex items-center gap-2 text-[#0F172A]">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: stage.color }} aria-hidden="true" />
+                        {stage.label}
+                      </span>
+                      <span className="text-[#64748B] tabular-nums">
+                        {count} <span className="text-[#94A3B8]">({pct}%)</span>
+                      </span>
+                    </div>
+                    <div className="h-2 bg-[#F1F5F9] rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full"
+                        style={{ width: `${pct}%`, background: stage.color }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           )}
         </div>
       </div>
@@ -161,64 +287,5 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
         <p className="text-[0.7rem] text-[#94A3B8] mt-2">Affiliatelenker — vi mottar en liten provisjon uten kostnad for deg.</p>
       </div>
     </section>
-  )
-}
-
-function OutcomeChart({ counts }) {
-  const r = 58
-  const strokeWidth = 20
-  const size = 160
-  const cx = size / 2
-  const cy = size / 2
-  const circumference = 2 * Math.PI * r
-
-  const total = OUTCOMES.reduce((sum, o) => sum + (counts[o] ?? 0), 0)
-  const segments = OUTCOMES.filter(o => counts[o] > 0).map(o => ({ label: o, value: counts[o], color: OUTCOME_COLOR[o] }))
-
-  let priorLength = 0
-  const slices = segments.map(seg => {
-    const dashLength = (seg.value / total) * circumference
-    const dashOffset = -priorLength
-    priorLength += dashLength
-    return { ...seg, dashLength, dashOffset }
-  })
-
-  return (
-    <div className="flex flex-col items-center gap-5">
-      <div className="relative">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-          <g transform={`rotate(-90 ${cx} ${cy})`}>
-            <circle cx={cx} cy={cy} r={r} fill="none" stroke="#F1F5F9" strokeWidth={strokeWidth} />
-            {slices.map(slice => (
-              <circle
-                key={slice.label}
-                cx={cx} cy={cy} r={r}
-                fill="none"
-                stroke={slice.color}
-                strokeWidth={strokeWidth}
-                strokeDasharray={`${slice.dashLength} ${circumference}`}
-                strokeDashoffset={slice.dashOffset}
-              />
-            ))}
-          </g>
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-bold text-[#1E3A6B] tabular-nums">{total}</span>
-          <span className="text-xs text-[#64748B]">avgjort</span>
-        </div>
-      </div>
-      <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center">
-        {slices.map(slice => (
-          <div key={slice.label} className="flex items-center gap-1.5 text-xs text-[#475569]">
-            <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: slice.color }} />
-            {slice.label} <span className="font-semibold tabular-nums text-[#0F172A]">{slice.value}</span>
-          </div>
-        ))}
-      </div>
-      <table className="sr-only" aria-label="Utfall per kategori">
-        <thead><tr><th>Utfall</th><th>Antall</th></tr></thead>
-        <tbody>{slices.map(s => <tr key={s.label}><td>{s.label}</td><td>{s.value}</td></tr>)}</tbody>
-      </table>
-    </div>
   )
 }
