@@ -13,7 +13,29 @@ const STAT_CARDS = [
   { key: 'Avslag',      label: 'Avslag',      color: 'border-t-[#EF4444]' },
 ]
 
-export default function ApplicationsPanel({ hidden, counts, applications, loading, onAdd, onEdit, onDelete }) {
+function CardSkeleton() {
+  return (
+    <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 animate-pulse" aria-hidden="true">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 flex flex-col gap-2">
+          <div className="h-4 bg-[#E2E8F0] rounded w-2/3" />
+          <div className="h-3 bg-[#F1F5F9] rounded w-1/2" />
+        </div>
+        <div className="h-5 bg-[#E2E8F0] rounded-full w-16 shrink-0" />
+      </div>
+      <div className="flex gap-4">
+        <div className="h-3 bg-[#F1F5F9] rounded w-20" />
+        <div className="h-3 bg-[#F1F5F9] rounded w-16" />
+      </div>
+      <div className="flex gap-2 pt-1 border-t border-[#F1F5F9]">
+        <div className="flex-1 h-8 bg-[#F1F5F9] rounded-lg" />
+        <div className="flex-1 h-8 bg-[#F1F5F9] rounded-lg" />
+      </div>
+    </div>
+  )
+}
+
+export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
 
@@ -101,7 +123,17 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
         <h2 id="list-heading" className="sr-only">Liste over søknader</h2>
 
         {loading ? (
-          <p className="text-center text-[#475569] py-12 text-sm">Laster søknader…</p>
+          <div role="status" aria-label="Laster søknader">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }, (_, i) => <CardSkeleton key={i} />)}
+            </div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-16">
+            <p className="text-3xl mb-3" aria-hidden="true">⚠️</p>
+            <p className="font-semibold text-[#0F172A] mb-1">Kunne ikke laste søknadene</p>
+            <p className="text-sm text-[#475569]">Sjekk internettforbindelsen og prøv å laste siden på nytt.</p>
+          </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-3xl mb-3" aria-hidden="true">📋</p>

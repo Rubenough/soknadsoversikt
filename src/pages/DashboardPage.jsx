@@ -21,7 +21,7 @@ const TABS = [
 export default function DashboardPage() {
   useEffect(() => { document.title = 'Dashboard — soknadsoversikt.no' }, [])
   const { session, signOut } = useAuth()
-  const { applications, loading, addApplication, updateApplication, deleteApplication } = useApplications(session?.user?.id)
+  const { applications, loading, error, addApplication, updateApplication, deleteApplication } = useApplications(session?.user?.id)
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -100,8 +100,13 @@ export default function DashboardPage() {
   }
 
   async function handleDeleteAll() {
-    await Promise.all(applications.map(app => deleteApplication(app.id)))
-    await signOut()
+    try {
+      await Promise.all(applications.map(app => deleteApplication(app.id)))
+      await signOut()
+    } catch {
+      announce('Noe gikk galt under sletting — prøv igjen')
+      setDeleteAllOpen(false)
+    }
   }
 
   function exportData() {
@@ -228,6 +233,7 @@ export default function DashboardPage() {
           counts={counts}
           applications={applications}
           loading={loading}
+          error={error}
           onAdd={openAdd}
           onEdit={openEdit}
           onDelete={setDeleteTarget}
