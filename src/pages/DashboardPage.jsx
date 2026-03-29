@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const { session, signOut } = useAuth()
   const { applications, loading, addApplication, updateApplication, deleteApplication } = useApplications(session?.user?.id)
 
+  const [menuOpen, setMenuOpen] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = searchParams.get('tab') ?? 'soknader'
   function setActiveTab(tab) {
@@ -125,18 +126,34 @@ export default function DashboardPage() {
         Hopp til innhold
       </a>
 
-      <header role="banner">
-        <nav className="sticky top-0 z-40 h-15 bg-[#1E3A6B] flex items-center px-4 sm:px-6 gap-2 sm:gap-6" aria-label="Appnavigasjon">
+      <header role="banner" className="sticky top-0 z-40">
+        <nav className="bg-[#1E3A6B] flex items-center px-6 h-16 justify-between gap-6" aria-label="Appnavigasjon">
           <a
             href="/"
             className="flex items-center gap-2 text-white font-bold text-base shrink-0 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded"
             aria-label="soknadsoversikt.no — tilbake til forsiden"
           >
             <span aria-hidden="true">📋</span>
-            <span className="hidden sm:inline">soknadsoversikt.no</span>
+            soknadsoversikt.no
           </a>
 
-          <div className="flex items-center gap-1 flex-1" role="tablist" aria-label="Seksjoner">
+          {/* Hamburger — mobil */}
+          <button
+            className="sm:hidden p-2 text-white rounded-lg hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+            aria-expanded={menuOpen}
+            aria-controls="app-nav-menu"
+            aria-label={menuOpen ? 'Lukk meny' : 'Åpne meny'}
+            onClick={() => setMenuOpen(o => !o)}
+          >
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <rect y="3" width="22" height="2" rx="1" fill="currentColor"/>
+              <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+              <rect y="17" width="22" height="2" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+
+          {/* Desktop-tabs */}
+          <div className="hidden sm:flex items-center gap-1 flex-1" role="tablist" aria-label="Seksjoner">
             {TABS.map(tab => (
               <button
                 key={tab.id}
@@ -145,19 +162,20 @@ export default function DashboardPage() {
                 aria-controls={`panel-${tab.id}`}
                 id={`tab-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
                   activeTab === tab.id
                     ? 'bg-white/15 text-white font-semibold'
                     : 'text-white/70 hover:bg-white/8 hover:text-white'
                 }`}
               >
                 <span aria-hidden="true">{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.label}</span>
+                {tab.label}
               </button>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 ml-auto">
+          {/* Desktop-ikoner */}
+          <div className="hidden sm:flex items-center gap-2 ml-auto">
             <button
               onClick={exportData}
               aria-label="Eksporter søknader som JSON"
@@ -176,6 +194,47 @@ export default function DashboardPage() {
             </button>
           </div>
         </nav>
+
+        {/* Mobil-dropdown */}
+        <div
+          id="app-nav-menu"
+          className={`${menuOpen ? 'flex' : 'hidden'} sm:hidden flex-col bg-white border-b border-[#E2E8F0] px-4 py-3 gap-1`}
+        >
+          {TABS.map(tab => (
+            <button
+              key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`panel-${tab.id}`}
+              id={`tab-${tab.id}`}
+              onClick={() => { setActiveTab(tab.id); setMenuOpen(false) }}
+              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-left focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+                activeTab === tab.id
+                  ? 'bg-[#EFF6FF] text-[#1E3A6B] font-semibold'
+                  : 'text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B]'
+              }`}
+            >
+              <span aria-hidden="true">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+          <div className="border-t border-[#E2E8F0] mt-1 pt-1 flex flex-col gap-1">
+            <button
+              onClick={() => { exportData(); setMenuOpen(false) }}
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+            >
+              <span aria-hidden="true">📤</span>
+              Eksporter data
+            </button>
+            <button
+              onClick={signOut}
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+            >
+              <span aria-hidden="true">🚪</span>
+              Logg ut
+            </button>
+          </div>
+        </div>
       </header>
 
       <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 py-6 overflow-x-hidden">
