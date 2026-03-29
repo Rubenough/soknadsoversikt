@@ -19,7 +19,7 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
 
   return (
     <article
-      className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-md transition-shadow"
+      className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200"
       aria-label={`Søknad hos ${company}`}
     >
       {/* Topp: bedrift + badges */}
