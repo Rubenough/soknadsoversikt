@@ -250,6 +250,7 @@ export default function DashboardPage() {
         <StatisticsPanel
           hidden={activeTab !== 'statistikk'}
           counts={counts}
+          applications={applications}
         />
         <SettingsPanel
           hidden={activeTab !== 'innstillinger'}
