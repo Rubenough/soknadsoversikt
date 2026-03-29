@@ -278,21 +278,22 @@ export default function LandingPage() {
         {/* ===== STØTT OSS / VIPPS ===== */}
         <section className="py-20 px-6 bg-[#F8FAFC] text-center" id="stott" aria-labelledby="support-heading">
           <div className="max-w-[520px] mx-auto">
-            <span className="text-4xl block mb-4" aria-hidden="true">❤️</span>
-            <h2 id="support-heading" className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-[#1E3A6B] text-balance mb-4">Liker du nettsiden?</h2>
+            <span className="text-4xl block mb-4" aria-hidden="true">☕</span>
+            <h2 id="support-heading" className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-[#1E3A6B] text-balance mb-4">Kjøp meg en kaffe?</h2>
             <p className="text-[#475569] text-[1.0625rem] mb-8 leading-relaxed">
-              soknadsoversikt.no er gratis og reklamefri. Hvis verktøyet hjelper deg i jobbsøkingen er en liten donasjon via Vipps med på å holde det i luften.
+              soknadsoversikt.no er gratis og reklamefri. Hvis verktøyet hjelper deg i jobbsøkingen setter jeg stor pris på en liten donasjon via Vipps.
             </p>
-            <a
-              href="https://vipps.no"
-              target="_blank"
-              rel="noopener"
-              className="inline-flex items-center gap-3 bg-[#FF5B24] text-white text-base font-bold px-8 py-3.5 rounded-lg min-h-11 shadow-[0_4px_16px_rgba(255,91,36,0.28)] hover:shadow-[0_8px_24px_rgba(255,91,36,0.4)] hover:-translate-y-px motion-safe:transition-[transform,box-shadow] focus-visible:outline-2 focus-visible:outline-[#FF5B24] focus-visible:outline-offset-2"
-            >
-              <span aria-hidden="true">💳</span>
-              Støtt med Vipps
-            </a>
-            <p className="text-[0.8125rem] text-[#64748B] mt-4">Frivillig og valgfritt — appen er gratis uansett.</p>
+            <div className="inline-block bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-[#E2E8F0] mb-4">
+              <img
+                src="/vipps-qr.png"
+                alt="Vipps QR-kode for donasjon"
+                width={200}
+                height={200}
+                className="block"
+              />
+            </div>
+            <p className="text-[0.9375rem] text-[#475569] mb-1">Skann med kameraet eller Vipps-appen</p>
+            <p className="text-[0.8125rem] text-[#64748B]">Frivillig og valgfritt — appen er gratis uansett.</p>
           </div>
         </section>
 
