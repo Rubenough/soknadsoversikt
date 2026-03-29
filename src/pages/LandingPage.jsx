@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+
 
 const FEATURES = [
   { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted. Sorter og filtrer etter status, bedrift eller dato. Aldri glem hva du har søkt på.' },
@@ -56,9 +57,7 @@ const RESOURCES = [
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { session, loading } = useAuth()
-
-  if (!loading && session) return <Navigate to="/app" replace />
+  const { session } = useAuth()
 
   return (
     <>
@@ -121,10 +120,10 @@ export default function LandingPage() {
             ))}
             <li>
               <Link
-                to="/login"
+                to={session ? '/app' : '/login'}
                 className="block px-5 py-2 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
               >
-                Start gratis →
+                {session ? 'Gå til dashboard →' : 'Start gratis →'}
               </Link>
             </li>
           </ul>
@@ -154,11 +153,11 @@ export default function LandingPage() {
 
             <div className="flex gap-4 justify-center flex-wrap">
               <Link
-                to="/login"
+                to={session ? '/app' : '/login'}
                 className="inline-flex items-center gap-2 px-7 py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-lg min-h-11 transition-colors hover:shadow-[0_4px_16px_rgba(37,99,235,0.35)] focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
               >
                 <span aria-hidden="true">📋</span>
-                Start nå — gratis
+                {session ? 'Gå til dashboard' : 'Start nå — gratis'}
               </Link>
               <a
                 href="#slik-fungerer"
@@ -309,11 +308,11 @@ export default function LandingPage() {
               Kom i gang på sekunder. Ingen installasjon, ingen kredittkort — bare søknadsoversikten du fortjener.
             </p>
             <Link
-              to="/login"
+              to={session ? '/app' : '/login'}
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-base rounded-lg min-h-11 transition-colors hover:shadow-[0_4px_16px_rgba(37,99,235,0.35)] focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
             >
               <span aria-hidden="true">📋</span>
-              Start gratis nå
+              {session ? 'Gå til dashboard' : 'Start gratis nå'}
             </Link>
           </div>
         </section>
