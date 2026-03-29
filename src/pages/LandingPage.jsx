@@ -296,7 +296,8 @@ export default function LandingPage() {
               />
             </div>
             <p className="text-[0.9375rem] text-[#475569] mb-1">Skann med kameraet eller Vipps-appen</p>
-            <p className="text-[0.8125rem] text-[#64748B]">Frivillig og valgfritt — appen er gratis uansett.</p>
+            <p className="text-[0.8125rem] text-[#64748B] mb-4">Frivillig og valgfritt — appen er gratis uansett.</p>
+            <p className="text-[0.8125rem] text-[#64748B]">Eller søk på <span className="font-semibold text-[#475569]">#46496</span> i Vipps</p>
           </div>
         </section>
 
