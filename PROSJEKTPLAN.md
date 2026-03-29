@@ -7,12 +7,14 @@ Gratis søknadstracker for norske jobbsøkere. React + Vite + Supabase + Tailwin
 ## Nåværende tilstand
 
 ### Stack
+
 - **Frontend:** React 19, Vite 8, Tailwind CSS 4
 - **Backend/DB:** Supabase (auth med magic link, PostgreSQL)
-- **Hosting:** (ikke satt)
-- **Ruter:** `/` landingsside, `/login`, `/app` (beskyttet dashboard)
+- **Hosting:** Vercel
+- **Ruter:** `/` landingsside, `/login`, `/app` (beskyttet dashboard), `/personvern`
 
 ### Database
+
 ```
 applications
   id, user_id, company, position, portal, url
@@ -21,7 +23,9 @@ applications
 ```
 
 ### Hva som er bygget
-- Landingsside: hero, features, "slik fungerer det", ressurser (affiliatelenker), FAQ, støtt-seksjon
+
+- Landingsside: hero, features, "slik fungerer det", ressurser (affiliatelenker), FAQ, støtt-seksjon (Vipps QR + nummer #46496)
+- Innloggede brukere ser "Gå til dashboard"-knapp på landingssiden i stedet for "Start gratis"
 - Magic link innlogging
 - Dashboard med tre faner: Søknader, Statistikk, Innstillinger (fane-tilstand synkronisert med URL `?tab=…`)
 - Søknader: legg til / rediger / slett, søk, filtrering på status og utfall, kortvisning
@@ -30,12 +34,13 @@ applications
 - Utfall: Avslag / Fått jobben / Trukket søknad (separat fra status)
 - Intervjurunde (1–4), vises kun ved Intervju/Tilbud
 - Kortet viser utfall-badge + "nådde [status]" når prosessen er avsluttet
-- Statistikk: nøkkeltall-tiles (totalt, aktive, avslag, fått jobben), fargede statusbarer med prosent, donut-chart, affiliatetips
+- Statistikk: nøkkeltall-tiles (totalt, svarrate med n-verdi, intervjurate med n-verdi, fått jobben), pipeline-funnel (Sendt→Svar→Intervju→Tilbud→Jobb), søknader per uke (siste 8 uker, tomme uker trimmet), kommende frister-widget (neste 14 dager), affiliatetips
 - "Til vurdering + utfall" telles under Sendt i statistikken
 - Eksport som JSON
 - Innstillinger: eksport, slett alle data
 
 ### Filstruktur
+
 ```
 src/
   pages/
@@ -63,20 +68,39 @@ src/
 
 ---
 
-## Gjennomført (siste runde)
+## Gjennomført (siste runde — statistikk og landingsside)
+
+### Landingsside
+
+- [x] Innloggede brukere omdirigeres ikke lenger fra landingssiden — viser "Gå til dashboard" i stedet
+- [x] Vipps-nummer `#46496` lagt til under QR-koden for mobilbrukere
+
+### Statistikk (redesign)
+
+- [x] Svarrate og intervjurate med n-verdi erstatter "aktive"-tile
+- [x] Pipeline-funnel (Sendt → Fikk svar → Intervju → Tilbud → Fått jobben) erstatter donut-chart
+- [x] Søknader per uke: tomme ledende uker trimmes, viser alltid minst 4 uker
+- [x] Kommende frister-widget — vises øverst ved frister innen 14 dager (rød badge ved ≤2 dager)
+
+---
+
+## Gjennomført (tidligere runder)
 
 ### Ytelse (react-best-practices)
+
 - [x] Lazy-loading av alle sider med `React.lazy` + `Suspense`
 - [x] Parallell sletting med `Promise.all` i "slett alle data"
 - [x] Ubrukt avhengighet `lucide-react` fjernet
 
 ### Kodestruktur
+
 - [x] DashboardPage splittet fra 644 → 292 linjer ved å trekke ut tre panelkomponenter
 - [x] Søk/filter-tilstand og `filtered`-beregning flyttet inn i `ApplicationsPanel`
 - [x] `DonutChart` og `SettingsCard` flyttet til sine respektive panel-filer
 - [x] Inline async-handler i "slett alle"-modal erstattet med navngitt funksjon `handleDeleteAll`
 
 ### Tilgjengelighet og skjemaer (web-design-guidelines)
+
 - [x] `focus:ring` → `focus-visible:ring` på alle inputfelter
 - [x] `spellCheck={false}` og `name="email"` på innloggingsskjema
 - [x] `name`-attributt på alle 11 felt i søknadsskjema
@@ -85,13 +109,16 @@ src/
 - [x] `motion-safe:` lagt til på animasjoner (respekterer `prefers-reduced-motion`)
 
 ### Navigasjon
+
 - [x] Fane-tilstand synkronisert med URL (`?tab=statistikk`) — støtter dyplenking
 
 ### Innhold
+
 - [x] "Slik ser det ut"-seksjonen fjernet (utdatert mockup)
 - [x] `StatusPill`-komponent fjernet (eksisterte kun for slettede seksjonen)
 
 ### Agent Skills
+
 - [x] `CLAUDE.md` opprettet med fire skills: `react-best-practices`, `composition-patterns`, `deploy-to-vercel`, `web-design-guidelines`
 
 ---
@@ -99,18 +126,21 @@ src/
 ## Før lansering — må fikses
 
 ### Kritisk
-- [ ] **Mangler `/personvern`-side** — lenket til i footer, eksisterer ikke som route/komponent
-- [ ] **Ingen 404-side** — catch-all redirecter til `/`, bør ha en egen side
+
+- [x] **`/personvern`-side** — implementert
+- [x] **404-side** — implementert
 - [ ] **Feilhåndtering ved innlogging** — hva skjer hvis magic link utløper eller feiler?
 - [ ] **Favicon og `<meta>`-tags** — OG-bilde, description, title per side
-- [ ] **Deploy til Vercel**
+- [x] **Deploy til Vercel**
 
 ### Innhold
-- [ ] **Vipps-lenke** peker på `vipps.no`, ikke et faktisk betalingslink
+
+- [x] **Vipps-lenke** peker på `vipps.no`, ikke et faktisk betalingslink
 - [ ] **Affiliate-lenker** — bekreft at alle er aktive og korrekte
 
 ### UX / småfeil
-- [ ] **Donut-chart tom** når alle søknader har utfall — bør vise noe nyttig
+
+- [x] **Donut-chart** erstattet med pipeline-funnel som alltid viser full pipeline
 - [ ] **Tom `<div />`** i ApplicationForm for grid-alignment ved intervjurunde — litt hacky
 - [ ] **Slett konto** sletter bare søknader, selve brukeren slettes ikke fra Supabase auth
 
@@ -119,17 +149,20 @@ src/
 ## Forbedringer etter lansering
 
 ### Funksjonalitet
+
 - [ ] Påminnelser — varsle om kommende frister (browser notifications eller e-post)
 - [ ] Sortering på søknadslisten (dato, bedrift, status)
 - [ ] Bulk-handlinger — merk flere og slett / oppdater status
 - [ ] Mørkt modus
 
 ### Statistikk
-- [ ] Tidsbasert statistikk — søknader per uke/måned, trend over tid
+
+- [x] Tidsbasert statistikk — søknader per uke (siste 8 uker)
 - [ ] Snitt intervjurunder før avslag/tilbud
-- [ ] Responstid — dager fra søkt til første svar
+- [ ] Responstid — dager fra søkt til første svar (krever status-endringstidsstempel)
 
 ### Teknisk
+
 - [ ] Error boundary — React-feil bør ikke kræsje hele appen
 - [ ] Loading skeleton — i stedet for "Laster søknader…"-tekst
 - [ ] Optimistisk UI — oppdater UI før Supabase-respons
@@ -139,6 +172,7 @@ src/
 ---
 
 ## Inntektsmuligheter
+
 - Affiliate: LinkedIn Premium, Kickresume, Udemy — implementert på landingsside og statistikkfane
 - Vipps-donasjon — implementert
 - Fremtidig: Pro-plan med e-postvarsler, CV-lagring, AI-hjelp til søknadsbrev
@@ -146,12 +180,14 @@ src/
 ---
 
 ## Domenestatus
-- Domene: `soknadsoversikt.no` (nevnt i kode, ikke bekreftet registrert)
-- Hosting: ikke satt opp
+
+- Domene: `soknadsoversikt.no`
+- Hosting: Vercel
 
 ---
 
 ## Nyttige kommandoer
+
 ```bash
 npm run dev       # lokal utvikling
 npm run build     # produksjonsbygg
