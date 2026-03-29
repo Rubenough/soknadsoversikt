@@ -175,23 +175,14 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* Desktop-ikoner */}
+          {/* Desktop-knapper */}
           <div className="hidden sm:flex items-center gap-2 ml-auto">
             <button
-              onClick={exportData}
-              aria-label="Eksporter søknader som JSON"
-              title="Eksporter data"
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-            >
-              <span aria-hidden="true">📤</span>
-            </button>
-            <button
               onClick={signOut}
-              aria-label="Logg ut"
-              title="Logg ut"
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
             >
               <span aria-hidden="true">🚪</span>
+              Logg ut
             </button>
           </div>
         </nav>
@@ -219,14 +210,7 @@ export default function DashboardPage() {
               {tab.label}
             </button>
           ))}
-          <div className="border-t border-[#E2E8F0] mt-1 pt-1 flex flex-col gap-1">
-            <button
-              onClick={() => { exportData(); setMenuOpen(false) }}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
-            >
-              <span aria-hidden="true">📤</span>
-              Eksporter data
-            </button>
+          <div className="border-t border-[#E2E8F0] mt-1 pt-1">
             <button
               onClick={signOut}
               className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
