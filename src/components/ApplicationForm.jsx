@@ -1,0 +1,260 @@
+import { useState, useEffect } from 'react'
+
+const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
+const OUTCOMES = ['Avslag', 'Fått jobben', 'Trukket søknad']
+
+const EMPTY = {
+  company: '',
+  position: '',
+  status: 'Sendt',
+  outcome: '',
+  interview_round: '',
+  portal: '',
+  url: '',
+  applied_at: new Date().toISOString().slice(0, 10),
+  deadline: '',
+  contact: '',
+  notes: '',
+}
+
+export default function ApplicationForm({ initial, onSubmit, onCancel, saving }) {
+  const [fields, setFields] = useState(initial ?? EMPTY)
+  const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    setFields(initial ?? EMPTY)
+    setErrors({})
+  }, [initial])
+
+  function set(key, value) {
+    setFields(prev => ({ ...prev, [key]: value }))
+    if (errors[key]) setErrors(prev => ({ ...prev, [key]: '' }))
+  }
+
+  function validate() {
+    const e = {}
+    if (!fields.company.trim())  e.company    = 'Bedriftsnavnet mangler — fyll det inn for å fortsette'
+    if (!fields.position.trim()) e.position   = 'Stillingstittel mangler — fyll den inn for å fortsette'
+    if (!fields.applied_at)      e.applied_at = 'Dato søkt mangler — velg en dato for å fortsette'
+    return e
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    const e2 = validate()
+    if (Object.keys(e2).length) {
+      setErrors(e2)
+      document.getElementById(`field-${Object.keys(e2)[0]}`)?.focus()
+      return
+    }
+    onSubmit(fields)
+  }
+
+  const showInterviewRound = fields.status === 'Intervju' || fields.status === 'Tilbud'
+
+  return (
+    <form id="application-form" noValidate onSubmit={handleSubmit}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        {/* Bedrift */}
+        <FieldGroup label="Bedrift" required htmlFor="field-company" error={errors.company}>
+          <input
+            id="field-company"
+            name="company"
+            type="text"
+            value={fields.company}
+            onChange={e => set('company', e.target.value)}
+            autoComplete="organization"
+            aria-required="true"
+            aria-describedby={errors.company ? 'err-company' : undefined}
+            placeholder="f.eks. Equinor ASA"
+            className={inputClass(errors.company)}
+          />
+          {errors.company && <ErrorMsg id="err-company" msg={errors.company} />}
+        </FieldGroup>
+
+        {/* Stillingstittel */}
+        <FieldGroup label="Stillingstittel" required htmlFor="field-position" error={errors.position}>
+          <input
+            id="field-position"
+            name="position"
+            type="text"
+            value={fields.position}
+            onChange={e => set('position', e.target.value)}
+            aria-required="true"
+            aria-describedby={errors.position ? 'err-position' : undefined}
+            placeholder="f.eks. UX-designer"
+            className={inputClass(errors.position)}
+          />
+          {errors.position && <ErrorMsg id="err-position" msg={errors.position} />}
+        </FieldGroup>
+
+        {/* Status */}
+        <FieldGroup label="Status" htmlFor="field-status">
+          <select
+            id="field-status"
+            name="status"
+            value={fields.status}
+            onChange={e => set('status', e.target.value)}
+            className={inputClass()}
+          >
+            {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </FieldGroup>
+
+        {/* Intervjurunde — vises kun ved Intervju/Tilbud */}
+        {showInterviewRound && (
+          <FieldGroup label="Intervjurunde" htmlFor="field-interview_round">
+            <select
+              id="field-interview_round"
+              name="interview_round"
+              value={fields.interview_round ?? ''}
+              onChange={e => set('interview_round', e.target.value ? Number(e.target.value) : '')}
+              className={inputClass()}
+            >
+              <option value="">Ikke satt</option>
+              {[1, 2, 3, 4].map(n => (
+                <option key={n} value={n}>Runde {n}</option>
+              ))}
+            </select>
+          </FieldGroup>
+        )}
+
+        {/* Utfall — alltid i venstre kolonne */}
+        <div className={showInterviewRound ? undefined : 'sm:col-start-1'}>
+          <FieldGroup label="Utfall" htmlFor="field-outcome">
+            <select
+              id="field-outcome"
+              name="outcome"
+              value={fields.outcome ?? ''}
+              onChange={e => set('outcome', e.target.value)}
+              className={inputClass()}
+            >
+              <option value="">Aktiv / ikke avgjort</option>
+              {OUTCOMES.map(o => <option key={o} value={o}>{o}</option>)}
+            </select>
+          </FieldGroup>
+        </div>
+
+        {/* Søknadsportal */}
+        <FieldGroup label="Søknadsportal" htmlFor="field-portal">
+          <input
+            id="field-portal"
+            name="portal"
+            type="text"
+            value={fields.portal}
+            onChange={e => set('portal', e.target.value)}
+            placeholder="f.eks. finn.no, LinkedIn"
+            className={inputClass()}
+          />
+        </FieldGroup>
+
+        {/* Lenke */}
+        <FieldGroup label="Lenke til søknad" htmlFor="field-url">
+          <input
+            id="field-url"
+            name="url"
+            type="url"
+            value={fields.url}
+            onChange={e => set('url', e.target.value)}
+            placeholder="https://..."
+            className={inputClass()}
+          />
+        </FieldGroup>
+
+        {/* Dato søkt */}
+        <FieldGroup label="Dato søkt" required htmlFor="field-applied_at" error={errors.applied_at}>
+          <input
+            id="field-applied_at"
+            name="applied_at"
+            type="date"
+            value={fields.applied_at}
+            onChange={e => set('applied_at', e.target.value)}
+            aria-required="true"
+            aria-describedby={errors.applied_at ? 'err-applied_at' : undefined}
+            className={inputClass(errors.applied_at)}
+          />
+          {errors.applied_at && <ErrorMsg id="err-applied_at" msg={errors.applied_at} />}
+        </FieldGroup>
+
+        {/* Søknadsfrist */}
+        <FieldGroup label="Søknadsfrist" htmlFor="field-deadline">
+          <input
+            id="field-deadline"
+            name="deadline"
+            type="date"
+            value={fields.deadline}
+            onChange={e => set('deadline', e.target.value)}
+            className={inputClass()}
+          />
+        </FieldGroup>
+
+        {/* Kontaktperson */}
+        <div className="sm:col-span-2">
+          <FieldGroup label="Kontaktperson" htmlFor="field-contact">
+            <input
+              id="field-contact"
+              name="contact"
+              type="text"
+              value={fields.contact}
+              onChange={e => set('contact', e.target.value)}
+              placeholder="Navn og e-post/tlf."
+              className={inputClass()}
+            />
+          </FieldGroup>
+        </div>
+
+        {/* Notater */}
+        <div className="sm:col-span-2">
+          <FieldGroup label="Notater" htmlFor="field-notes">
+            <textarea
+              id="field-notes"
+              name="notes"
+              value={fields.notes}
+              onChange={e => set('notes', e.target.value)}
+              rows={3}
+              placeholder="Egne notater, tips, oppfølgingspunkter…"
+              className={inputClass() + ' resize-y min-h-20'}
+            />
+          </FieldGroup>
+        </div>
+
+      </div>
+
+      <button type="submit" className="sr-only">Lagre</button>
+    </form>
+  )
+}
+
+function FieldGroup({ label, required, htmlFor, error, children }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={htmlFor} className="text-sm font-medium text-[#0F172A]">
+        {label}
+        {required && (
+          <>
+            <span aria-hidden="true" className="text-[#DC2626] ml-0.5">*</span>
+            <span className="sr-only"> (obligatorisk)</span>
+          </>
+        )}
+      </label>
+      {children}
+      {error && <ErrorMsg id={`err-${htmlFor?.replace('field-', '')}`} msg={error} />}
+    </div>
+  )
+}
+
+function ErrorMsg({ id, msg }) {
+  return (
+    <span id={id} role="alert" className="text-xs text-[#DC2626] mt-1">
+      {msg}
+    </span>
+  )
+}
+
+function inputClass(error) {
+  const base = 'w-full h-10 px-3 border rounded-lg font-[inherit] text-sm text-[#0F172A] bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:border-[#2563EB]'
+  return error
+    ? `${base} border-[#DC2626]`
+    : `${base} border-[#7B8FA8] hover:border-[#2563EB]`
+}
