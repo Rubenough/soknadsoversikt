@@ -126,14 +126,14 @@ export default function DashboardPage() {
       </a>
 
       <header role="banner">
-        <nav className="sticky top-0 z-40 h-15 bg-[#1E3A6B] flex items-center px-6 gap-6" aria-label="Appnavigasjon">
+        <nav className="sticky top-0 z-40 h-15 bg-[#1E3A6B] flex items-center px-4 sm:px-6 gap-2 sm:gap-6" aria-label="Appnavigasjon">
           <a
             href="/"
             className="flex items-center gap-2 text-white font-bold text-base shrink-0 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded"
             aria-label="soknadsoversikt.no — tilbake til forsiden"
           >
             <span aria-hidden="true">📋</span>
-            soknadsoversikt.no
+            <span className="hidden sm:inline">soknadsoversikt.no</span>
           </a>
 
           <div className="flex items-center gap-1 flex-1" role="tablist" aria-label="Seksjoner">
@@ -145,14 +145,14 @@ export default function DashboardPage() {
                 aria-controls={`panel-${tab.id}`}
                 id={`tab-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
                   activeTab === tab.id
                     ? 'bg-white/15 text-white font-semibold'
                     : 'text-white/70 hover:bg-white/8 hover:text-white'
                 }`}
               >
                 <span aria-hidden="true">{tab.icon}</span>
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -178,7 +178,7 @@ export default function DashboardPage() {
         </nav>
       </header>
 
-      <main id="main-content" className="max-w-6xl mx-auto px-6 py-6">
+      <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 py-6 overflow-x-hidden">
         <ApplicationsPanel
           hidden={activeTab !== 'soknader'}
           counts={counts}
