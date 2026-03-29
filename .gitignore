@@ -26,3 +26,4 @@ agent-skills/
 *.njsproj
 *.sln
 *.sw?
+.vercel
