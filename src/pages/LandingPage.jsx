@@ -30,28 +30,52 @@ const FAQ = [
 
 const RESOURCES = [
   {
+    href: 'https://arbeidsplassen.nav.no/',
+    title: 'Arbeidsplassen.no',
+    icon: '🔍',
+    desc: 'NAVs jobbportal med over 90 % av alle utlyste stillinger i Norge. Gratis CV-registrering og jobbvarsler.',
+    badge: 'Jobbportal',
+    rel: 'noopener noreferrer',
+  },
+  {
+    href: 'https://www.finn.no/job/browse.html',
+    title: 'FINN Jobb',
+    icon: '📌',
+    desc: 'Norges mest brukte jobbportal. Søk blant tusenvis av ledige stillinger og sett opp varsler for drømmejobben.',
+    badge: 'Jobbportal',
+    rel: 'noopener noreferrer',
+  },
+  {
+    href: 'https://www.cvpilot.no/',
+    title: 'CVpilot',
+    icon: '📄',
+    desc: 'AI-drevet CV- og søknadsgenerator tilpasset norsk arbeidsliv. Integrert med FINN.no og klart på under 2 minutter.',
+    badge: 'CV-hjelp',
+    rel: 'noopener noreferrer',
+  },
+  {
+    href: 'https://www.linkedin.com/learning/',
+    title: 'LinkedIn Learning',
+    icon: '🎓',
+    desc: 'Tusenvis av kurs som vises direkte på LinkedIn-profilen din. Styrk kompetansen og bli mer synlig for rekrutterere.',
+    badge: 'Kurs',
+    rel: 'noopener noreferrer',
+  },
+  {
     href: 'https://www.linkedin.com/premium/',
     title: 'LinkedIn Premium',
     icon: '💼',
     desc: 'Se hvem som har sett profilen din, kontakt rekrutterere direkte og få innsikt i konkurransen om stillinger.',
-    badge: 'Anbefalt',
-    rel: 'noopener sponsored',
+    badge: 'Nettverk',
+    rel: 'noopener noreferrer',
   },
   {
-    href: 'https://www.kickresume.com/',
-    title: 'Kickresume',
-    icon: '📄',
-    desc: 'Profesjonelle CV-maler og søknadsbrevgenerator. Kom deg forbi ATS-filtre med en CV som skiller seg ut.',
-    badge: 'CV-hjelp',
-    rel: 'noopener sponsored',
-  },
-  {
-    href: 'https://www.udemy.com/',
-    title: 'Udemy',
-    icon: '🎓',
-    desc: 'Over 200 000 kurs. Lær nye ferdigheter som styrker søknaden din — fra programmering til prosjektledelse.',
-    badge: 'Kurs',
-    rel: 'noopener sponsored',
+    href: 'https://karrierestart.no/',
+    title: 'KarriereStart.no',
+    icon: '🚀',
+    desc: 'Norges karriereportal for studenter og nyutdannede. Finn trainee-programmer, graduate-stillinger og karrieretips.',
+    badge: 'Karriere',
+    rel: 'noopener noreferrer',
   },
 ]
 
@@ -230,7 +254,7 @@ export default function LandingPage() {
           <div className="max-w-[1100px] mx-auto">
             <span className="inline-block text-[0.8125rem] font-bold tracking-widest uppercase text-[#2563EB] mb-3">Nyttige lenker</span>
             <h2 id="resources-heading" className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-[#1E3A6B] text-balance mb-3">Ressurser for jobbsøkere</h2>
-            <p className="text-[#475569] text-[1.0625rem] mb-10 max-w-[600px]">Verktøy og tjenester som kan styrke søknaden din.</p>
+            <p className="text-[#475569] text-[1.0625rem] mb-10 max-w-[600px]">Jobbportaler, CV-verktøy og kurs tilpasset det norske arbeidsmarkedet.</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-4">
               {RESOURCES.map(({ href, title, icon, desc, badge, rel }) => (
                 <a
@@ -247,9 +271,6 @@ export default function LandingPage() {
                 </a>
               ))}
             </div>
-            <p className="text-[0.8125rem] text-[#64748B]">
-              Merknad: Noen lenker er affiliatelenker. Vi mottar en liten provisjon uten ekstra kostnad for deg.
-            </p>
           </div>
         </section>
 
