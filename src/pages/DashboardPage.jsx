@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useApplications } from '../hooks/useApplications'
@@ -19,6 +19,7 @@ const TABS = [
 ]
 
 export default function DashboardPage() {
+  useEffect(() => { document.title = 'Dashboard — soknadsoversikt.no' }, [])
   const { session, signOut } = useAuth()
   const { applications, loading, addApplication, updateApplication, deleteApplication } = useApplications(session?.user?.id)
 

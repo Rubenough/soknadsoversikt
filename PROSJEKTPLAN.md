@@ -129,8 +129,8 @@ src/
 
 - [x] **`/personvern`-side** — implementert
 - [x] **404-side** — implementert
-- [ ] **Feilhåndtering ved innlogging** — hva skjer hvis magic link utløper eller feiler?
-- [ ] **Favicon og `<meta>`-tags** — OG-bilde, description, title per side
+- [x] **Feilhåndtering ved innlogging** — utløpt/ugyldig magic link viser norsk feilmelding; `emailRedirectTo` peker nå på `/login`
+- [ ] **Favicon og `<meta>`-tags** — OG-bilde mangler; description og title per side er implementert
 - [x] **Deploy til Vercel**
 
 ### Innhold
@@ -141,8 +141,8 @@ src/
 ### UX / småfeil
 
 - [x] **Donut-chart** erstattet med pipeline-funnel som alltid viser full pipeline
-- [ ] **Tom `<div />`** i ApplicationForm for grid-alignment ved intervjurunde — litt hacky
-- [ ] **Slett konto** sletter bare søknader, selve brukeren slettes ikke fra Supabase auth
+- [x] **Tom `<div />`** i ApplicationForm — løst med `sm:col-start-1` på Utfall-feltet
+- [ ] **Slett konto** sletter bare søknader, selve brukeren slettes ikke fra Supabase auth (krever Edge Function)
 
 ---
 

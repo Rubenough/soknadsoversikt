@@ -1,6 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+
+const AUTH_ERRORS = {
+  'Email link is invalid or has expired': 'Innloggingslenken er utløpt eller allerede brukt — send en ny.',
+  'otp_expired': 'Innloggingslenken er utløpt — send en ny.',
+}
+
+function parseHashError() {
+  const hash = window.location.hash
+  if (!hash.includes('error=')) return ''
+  const params = new URLSearchParams(hash.slice(1))
+  const desc = params.get('error_description')?.replace(/\+/g, ' ') ?? ''
+  return AUTH_ERRORS[desc] ?? AUTH_ERRORS[params.get('error_code')] ?? 'Innloggingslenken var ugyldig — prøv å sende en ny.'
+}
 
 export default function LoginPage() {
   const { session, loading, signInWithMagicLink } = useAuth()
@@ -9,6 +22,15 @@ export default function LoginPage() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState(location.state?.authError ?? '')
   const [sending, setSending] = useState(false)
+
+  useEffect(() => {
+    document.title = 'Logg inn — soknadsoversikt.no'
+    const hashError = parseHashError()
+    if (hashError) {
+      setError(hashError)
+      window.history.replaceState(null, '', window.location.pathname)
+    }
+  }, [])
 
   if (loading) return null
   if (session) return <Navigate to="/app" replace />
