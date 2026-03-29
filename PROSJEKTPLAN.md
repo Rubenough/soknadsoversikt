@@ -130,7 +130,7 @@ src/
 - [x] **`/personvern`-side** — implementert
 - [x] **404-side** — implementert
 - [x] **Feilhåndtering ved innlogging** — utløpt/ugyldig magic link viser norsk feilmelding; `emailRedirectTo` peker nå på `/login`
-- [ ] **Favicon og `<meta>`-tags** — OG-bilde mangler; description og title per side er implementert
+- [x] **Favicon og `<meta>`-tags** — OG-bilde (`/public/og-image.png`), `og:image` og `twitter:image` lagt til
 - [x] **Deploy til Vercel**
 
 ### Innhold
@@ -158,8 +158,8 @@ src/
 ### Statistikk
 
 - [x] Tidsbasert statistikk — søknader per uke (siste 8 uker)
-- [ ] Snitt intervjurunder før avslag/tilbud
-- [ ] Responstid — dager fra søkt til første svar (krever status-endringstidsstempel)
+- [ ] Snitt intervjurunder før avslag/tilbud (ikke ta med?)
+- [ ] Responstid — dager fra søkt til første svar (krever status-endringstidsstempel) (ikke relevant?)
 
 ### Teknisk
 
