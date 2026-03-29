@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const FEATURES = [
   { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted. Sorter og filtrer etter status, bedrift eller dato. Aldri glem hva du har søkt på.' },
@@ -55,6 +56,9 @@ const RESOURCES = [
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { session, loading } = useAuth()
+
+  if (!loading && session) return <Navigate to="/app" replace />
 
   return (
     <>
