@@ -163,8 +163,11 @@ src/
 
 ### Teknisk
 
-- [ ] Error boundary — React-feil bør ikke kræsje hele appen
-- [ ] Loading skeleton — i stedet for "Laster søknader…"-tekst
+- [x] Error boundary — `ErrorBoundary`-komponent rundt hele appen; norsk feilmelding, stack trace kun i dev
+- [x] Loading skeleton — 6 `CardSkeleton`-kort med `animate-pulse` erstatter "Laster søknader…"
+- [x] Suspense fallback — viser spinner ved lazy-load i stedet for `null`
+- [x] Fetch-feil synlig — `error` fra `useApplications` vises i `ApplicationsPanel`
+- [x] `handleDeleteAll` sikret — `try/catch` rundt `Promise.all` + `signOut`
 - [ ] Optimistisk UI — oppdater UI før Supabase-respons
 - [ ] PWA / installbar — `manifest.json` og service worker
 - [ ] E2E-tester — Playwright for kritiske flyter
