@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useApplications } from '../hooks/useApplications'
@@ -41,6 +42,8 @@ export default function DashboardPage() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteAllOpen, setDeleteAllOpen] = useState(false)
+  const [deleteAccountOpen, setDeleteAccountOpen] = useState(false)
+  const [deletingAccount, setDeletingAccount] = useState(false)
 
   const { ref: liveRef, announce } = useStatusMessage()
 
@@ -106,6 +109,20 @@ export default function DashboardPage() {
     } catch {
       announce('Noe gikk galt under sletting — prøv igjen')
       setDeleteAllOpen(false)
+    }
+  }
+
+  async function handleDeleteAccount() {
+    setDeletingAccount(true)
+    try {
+      const { error } = await supabase.functions.invoke('delete-account')
+      if (error) throw error
+      await signOut()
+    } catch {
+      announce('Kunne ikke slette kontoen — prøv igjen')
+      setDeleteAccountOpen(false)
+    } finally {
+      setDeletingAccount(false)
     }
   }
 
@@ -248,6 +265,7 @@ export default function DashboardPage() {
           session={session}
           onExport={exportData}
           onDeleteAll={() => setDeleteAllOpen(true)}
+          onDeleteAccount={() => setDeleteAccountOpen(true)}
         />
       </main>
 
@@ -308,6 +326,35 @@ export default function DashboardPage() {
         <p className="text-sm text-[#475569]">
           Er du sikker på at du vil slette søknaden hos <strong>{deleteTarget?.company}</strong>?
           Denne handlingen kan ikke angres.
+        </p>
+      </Modal>
+
+      {/* Modal: Slett konto */}
+      <Modal
+        isOpen={deleteAccountOpen}
+        onClose={() => !deletingAccount && setDeleteAccountOpen(false)}
+        title="Slett konto permanent?"
+        footer={
+          <>
+            <button
+              onClick={() => setDeleteAccountOpen(false)}
+              disabled={deletingAccount}
+              className="h-10 px-5 border-[1.5px] border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50 font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+            >
+              Avbryt
+            </button>
+            <button
+              onClick={handleDeleteAccount}
+              disabled={deletingAccount}
+              className="h-10 px-5 bg-[#DC2626] hover:bg-[#B91C1C] disabled:bg-[#E2E8F0] disabled:text-[#94A3B8] disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
+            >
+              {deletingAccount ? 'Sletter konto…' : 'Ja, slett kontoen min'}
+            </button>
+          </>
+        }
+      >
+        <p className="text-sm text-[#475569]">
+          Dette sletter kontoen din og alle søknadene dine permanent. Du kan opprette en ny konto med samme e-postadresse senere. <strong>Handlingen kan ikke angres.</strong>
         </p>
       </Modal>
 

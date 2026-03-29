@@ -1,4 +1,4 @@
-export default function SettingsPanel({ hidden, session, onExport, onDeleteAll }) {
+export default function SettingsPanel({ hidden, session, onExport, onDeleteAll, onDeleteAccount }) {
   return (
     <section
       id="panel-innstillinger"
@@ -38,6 +38,20 @@ export default function SettingsPanel({ hidden, session, onExport, onDeleteAll }
           >
             <span aria-hidden="true">🗑️</span>
             Slett alle søknadsdata
+          </button>
+        </SettingsCard>
+
+        <SettingsCard title="Slett konto" danger>
+          <p className="text-sm text-[#475569] mb-3">
+            Sletter kontoen din og alle tilknyttede data permanent. Du vil ikke lenger kunne logge inn med denne e-postadressen. Handlingen kan ikke angres.
+          </p>
+          <button
+            onClick={onDeleteAccount}
+            aria-label="Slett konto og alle data permanent"
+            className="h-10 px-5 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold text-sm rounded-lg flex items-center gap-2 transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
+          >
+            <span aria-hidden="true">⚠️</span>
+            Slett konto permanent
           </button>
         </SettingsCard>
 

@@ -142,7 +142,7 @@ src/
 
 - [x] **Donut-chart** erstattet med pipeline-funnel som alltid viser full pipeline
 - [x] **Tom `<div />`** i ApplicationForm — løst med `sm:col-start-1` på Utfall-feltet
-- [ ] **Slett konto** sletter bare søknader, selve brukeren slettes ikke fra Supabase auth (krever Edge Function)
+- [x] **Slett konto** — Edge Function `delete-account` sletter bruker fra `auth.users` + søknadsdata; bekreftelses­modal med laste­tilstand
 
 ---
 
