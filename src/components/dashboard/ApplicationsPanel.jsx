@@ -38,15 +38,18 @@ function CardSkeleton() {
 export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
+  const [showClosed, setShowClosed] = useState(false)
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
     return applications.filter(a => {
+      const isClosed = Boolean(a.outcome)
+      if (!showClosed && isClosed) return false
       const matchSearch = !q || a.company.toLowerCase().includes(q) || a.position.toLowerCase().includes(q)
       const matchStatus = !filterStatus || a.status === filterStatus || a.outcome === filterStatus
       return matchSearch && matchStatus
     })
-  }, [applications, search, filterStatus])
+  }, [applications, search, filterStatus, showClosed])
 
   return (
     <section
@@ -108,6 +111,16 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           </select>
         </div>
 
+        <label className="flex items-center gap-2 cursor-pointer select-none text-sm text-[#475569] font-medium">
+          <input
+            type="checkbox"
+            checked={showClosed}
+            onChange={e => setShowClosed(e.target.checked)}
+            className="w-4 h-4 rounded border-[#7B8FA8] accent-[#2563EB] cursor-pointer"
+          />
+          Vis avsluttede
+        </label>
+
         <button
           onClick={onAdd}
           aria-label="Legg til ny søknad"
@@ -138,11 +151,13 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           <div className="text-center py-16">
             <p className="text-3xl mb-3" aria-hidden="true">📋</p>
             <p className="font-semibold text-[#0F172A] mb-1">
-              {applications.length === 0 ? 'Ingen søknader ennå' : 'Ingen treff'}
+              {applications.length === 0 ? 'Ingen søknader ennå' : 'Ingen aktive søknader'}
             </p>
             <p className="text-sm text-[#475569] mb-6">
               {applications.length === 0
                 ? 'Legg til din første søknad for å komme i gang.'
+                : !showClosed
+                ? 'Alle søknader er avsluttet. Huk av «Vis avsluttede» for å se dem.'
                 : 'Prøv et annet søkeord eller filter.'}
             </p>
             {applications.length === 0 && (
