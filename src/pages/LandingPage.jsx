@@ -5,7 +5,7 @@ import { RESOURCES } from '../data/resources'
 
 
 const FEATURES = [
-  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted. Sorter og filtrer etter status, bedrift eller dato. Aldri glem hva du har søkt på.' },
+  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted — med bedrift, stilling, portal og status samlet. Aldri lur på om det var FINN, NAV eller noe annet du søkte via.' },
   { icon: '🔔', title: 'Frister og påminnelser', desc: 'Legg inn søknadsfrister og få en tydelig oversikt over hva som haster. Vet alltid hva som er neste steg.' },
   { icon: '📊', title: 'Statistikk', desc: 'Se din svarprosent, andel intervjuer og hvordan jobbsøkingen går. Bruk tallene til å justere strategien din.' },
   { icon: '📱', title: 'Fungerer overalt', desc: 'Tilgjengelig på mobil, nettbrett og PC. Alt synkroniseres automatisk — logg inn fra hvilken som helst enhet.' },
@@ -16,7 +16,7 @@ const FEATURES = [
 const STEPS = [
   { num: '1', title: 'Logg inn', desc: 'Skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord — du er i gang på sekunder.' },
   { num: '2', title: 'Legg inn søknadene dine', desc: 'Fyll inn bedrift, stilling, dato og søknadsportal. Ta med frister og eventuelle kontaktpersoner.' },
-  { num: '3', title: 'Hold oversikten', desc: 'Oppdater status etter hvert — fra Sendt til Intervju til Tilbud. Se statistikken din vokse og jobbsøkingen bli mer strukturert.' },
+  { num: '3', title: 'Hold oversikten', desc: 'Oppdater status etter hvert — fra Sendt til Intervju til Tilbud. Alltid ett sted å slå opp: hvilken portal du brukte, hva som er neste steg, og når fristen er.' },
 ]
 
 
@@ -123,7 +123,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-lg text-white/88 mb-10 max-w-140 mx-auto leading-relaxed">
-              Et enkelt, ryddig verktøy for norske jobbsøkere. Legg inn søknader, følg status fra sendt til svar, og aldri glem en frist igjen.
+              Husker du hvilken portal du søkte via? Logg søknadene dine ett sted — med portal, status og frister samlet — og slipp å logge inn overalt for å finne dem igjen.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
