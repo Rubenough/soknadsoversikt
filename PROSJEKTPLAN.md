@@ -28,13 +28,13 @@ applications
 - Innloggede brukere ser "Gå til dashboard"-knapp på landingssiden i stedet for "Start gratis"
 - Magic link innlogging
 - Dashboard med tre faner: Søknader, Statistikk, Innstillinger (fane-tilstand synkronisert med URL `?tab=…`)
-- Søknader: legg til / rediger / slett, søk, filtrering på status og utfall, kortvisning
+- Søknader: legg til / rediger / slett, søk, statuschips som filter, kortvisning
 - Lenke til søknad på hvert kort (åpner eksternt)
 - Status (fremgang): Sendt → Til vurdering → Intervju → Tilbud
 - Utfall: Avslag / Fått jobben / Trukket søknad (separat fra status)
 - Intervjurunde (1–4), vises kun ved Intervju/Tilbud
 - Kortet viser utfall-badge + "nådde [status]" når prosessen er avsluttet
-- Statistikk: nøkkeltall-tiles (totalt, svarrate med n-verdi, intervjurate med n-verdi, fått jobben), pipeline-funnel (Sendt→Svar→Intervju→Tilbud→Jobb), søknader per uke (siste 8 uker, tomme uker trimmet), kommende frister-widget (neste 14 dager), affiliatetips
+- Statistikk: nøkkeltall-tiles (totalt, svarrate, intervjurate, fått jobben), pipeline-funnel (Sendt→Svar→Intervju→Tilbud→Jobb), søknader per uke (siste 8 uker, tomme uker trimmet), kommende frister-widget (neste 14 dager), affiliatetips
 - "Til vurdering + utfall" telles under Sendt i statistikken
 - Eksport som JSON
 - Innstillinger: eksport, slett alle data
@@ -49,7 +49,7 @@ src/
     DashboardPage.jsx         # appskall: auth, data, tabs, modaler
   components/
     dashboard/
-      ApplicationsPanel.jsx   # søknader-fane: liste, søk, filter
+      ApplicationsPanel.jsx   # søknader-fane: liste, søk, filter, chips
       StatisticsPanel.jsx     # statistikk-fane: grafer, tips
       SettingsPanel.jsx       # innstillinger-fane: konto, eksport, slett
     ApplicationCard.jsx
@@ -62,22 +62,33 @@ src/
   hooks/
     useAuth.js
     useApplications.js
+  data/
+    resources.js              # delt kilde for ressurslenker (LandingPage + StatisticsPanel)
   lib/
     supabase.js
 ```
 
 ---
 
-## Gjennomført (siste runde — statistikk og landingsside)
+## Gjennomført (siste runde)
 
 ### Landingsside
 
 - [x] Innloggede brukere omdirigeres ikke lenger fra landingssiden — viser "Gå til dashboard" i stedet
 - [x] Vipps-nummer `#46496` lagt til under QR-koden for mobilbrukere
+- [x] Kopitekst oppdatert — portalsporing fremhevet som kjerneverdi (hero, features, steg 3)
+- [x] Ressurslenker flyttet til delt datafil `src/data/resources.js` (deles med StatisticsPanel)
+- [x] Arbitrære Tailwind-klasser (`max-w-[720px]` etc.) erstattet med kanoniske verdier
+
+### Filtrering (søknadsliste)
+
+- [x] Aktive søknader vises som standard — avsluttede skjules
+- [x] Statusdropdown erstattet med klikkbare chips
+- [x] "Avsluttede"-pill bytter til avsluttet-modus — aktive og avsluttede søknader vises aldri blandet
 
 ### Statistikk (redesign)
 
-- [x] Svarrate og intervjurate med n-verdi erstatter "aktive"-tile
+- [x] Svarrate og intervjurate erstatter "aktive"-tile (n-verdi fjernet som overflødig)
 - [x] Pipeline-funnel (Sendt → Fikk svar → Intervju → Tilbud → Fått jobben) erstatter donut-chart
 - [x] Søknader per uke: tomme ledende uker trimmes, viser alltid minst 4 uker
 - [x] Kommende frister-widget — vises øverst ved frister innen 14 dager (rød badge ved ≤2 dager)
@@ -151,7 +162,7 @@ src/
 ### Funksjonalitet
 
 - [ ] Påminnelser — varsle om kommende frister (browser notifications eller e-post)
-- [ ] Sortering på søknadslisten (dato, bedrift, status)
+- [ ] Sortering på søknadslisten (dato, bedrift, status) — chips-filtrering er på plass, sortering mangler
 - [ ] Bulk-handlinger — merk flere og slett / oppdater status
 - [ ] Mørkt modus
 
@@ -176,7 +187,7 @@ src/
 
 ## Inntektsmuligheter
 
-- Affiliate: LinkedIn Premium, Kickresume, Udemy — implementert på landingsside og statistikkfane
+- Affiliate: LinkedIn Premium, CVpilot, LinkedIn Learning m.fl. — implementert på landingsside og statistikkfane, hentet fra delt `resources.js`
 - Vipps-donasjon — implementert
 - Fremtidig: Pro-plan med e-postvarsler, CV-lagring, AI-hjelp til søknadsbrev
 
