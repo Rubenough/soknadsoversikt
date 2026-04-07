@@ -1,10 +1,5 @@
 import { useMemo } from 'react'
-
-const TIPS = [
-  { href: 'https://www.kickresume.com/', icon: '📄', title: 'Kickresume', desc: 'Profesjonelle CV-maler som skiller seg ut og kommer gjennom ATS-filtre.' },
-  { href: 'https://www.linkedin.com/premium/', icon: '💼', title: 'LinkedIn Premium', desc: 'Se hvem som har sett profilen din og ta kontakt med rekrutterere direkte.' },
-  { href: 'https://www.udemy.com/', icon: '🎓', title: 'Udemy', desc: 'Lær nye ferdigheter som styrker søknaden — over 200 000 kurs tilgjengelig.' },
-]
+import { RESOURCES } from '../../data/resources'
 
 const FUNNEL_STAGES = [
   { label: 'Sendt',        color: '#3B82F6' },
@@ -267,7 +262,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
       <div>
         <p className="text-[0.75rem] font-bold tracking-widest uppercase text-[#94A3B8] mb-3">Kan hjelpe deg videre</p>
         <div className="flex flex-col divide-y divide-[#F1F5F9]">
-          {TIPS.map(({ href, icon, title, desc }) => (
+          {RESOURCES.map(({ href, icon, title, desc }) => (
             <a
               key={title}
               href={href}
@@ -284,7 +279,6 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
             </a>
           ))}
         </div>
-        <p className="text-[0.7rem] text-[#94A3B8] mt-2">Affiliatelenker — vi mottar en liten provisjon uten kostnad for deg.</p>
       </div>
     </section>
   )
