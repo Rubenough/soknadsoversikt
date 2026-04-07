@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react'
 import ApplicationCard from '../ApplicationCard'
 
 const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
-const OUTCOMES = ['Avslag', 'Fått jobben', 'Trukket søknad']
 
 const STAT_CARDS = [
   { key: 'total',       label: 'Totalt',      color: 'border-t-[#1E3A6B]', hoverShadow: 'hover:shadow-[0_3px_10px_rgba(30,58,107,0.2)]' },
@@ -38,18 +37,19 @@ function CardSkeleton() {
 export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
-  const [showClosed, setShowClosed] = useState(false)
+
+  const showingClosed = filterStatus === 'avsluttede'
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
     return applications.filter(a => {
       const isClosed = Boolean(a.outcome)
-      if (!showClosed && isClosed) return false
+      if (showingClosed !== isClosed) return false
       const matchSearch = !q || a.company.toLowerCase().includes(q) || a.position.toLowerCase().includes(q)
-      const matchStatus = !filterStatus || a.status === filterStatus || a.outcome === filterStatus
+      const matchStatus = showingClosed || !filterStatus || a.status === filterStatus
       return matchSearch && matchStatus
     })
-  }, [applications, search, filterStatus, showClosed])
+  }, [applications, search, filterStatus, showingClosed])
 
   return (
     <section
@@ -120,38 +120,19 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           </button>
         ))}
 
-        {showClosed && (
-          <>
-            <span className="w-px h-5 bg-[#E2E8F0]" aria-hidden="true" />
-            {OUTCOMES.map(o => (
-              <button
-                key={o}
-                onClick={() => setFilterStatus(prev => prev === o ? '' : o)}
-                aria-pressed={filterStatus === o}
-                className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
-                  filterStatus === o
-                    ? 'bg-[#64748B] border-[#64748B] text-white'
-                    : 'bg-white border-[#CBD5E1] text-[#94A3B8] hover:border-[#7B8FA8] hover:text-[#475569]'
-                }`}
-              >
-                {o}
-              </button>
-            ))}
-          </>
-        )}
+        <span className="w-px h-5 bg-[#E2E8F0]" aria-hidden="true" />
 
-        <label className="ml-auto flex items-center gap-2 cursor-pointer select-none text-sm text-[#475569] font-medium">
-          <input
-            type="checkbox"
-            checked={showClosed}
-            onChange={e => {
-              setShowClosed(e.target.checked)
-              if (!e.target.checked && OUTCOMES.includes(filterStatus)) setFilterStatus('')
-            }}
-            className="w-4 h-4 rounded border-[#7B8FA8] accent-[#2563EB] cursor-pointer"
-          />
-          Vis avsluttede
-        </label>
+        <button
+          onClick={() => setFilterStatus(showingClosed ? '' : 'avsluttede')}
+          aria-pressed={showingClosed}
+          className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+            showingClosed
+              ? 'bg-[#64748B] border-[#64748B] text-white'
+              : 'bg-white border-[#CBD5E1] text-[#94A3B8] hover:border-[#7B8FA8] hover:text-[#475569]'
+          }`}
+        >
+          Avsluttede
+        </button>
       </div>
 
       {/* Søknadsliste */}
@@ -174,14 +155,14 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           <div className="text-center py-16">
             <p className="text-3xl mb-3" aria-hidden="true">📋</p>
             <p className="font-semibold text-[#0F172A] mb-1">
-              {applications.length === 0 ? 'Ingen søknader ennå' : 'Ingen aktive søknader'}
+              {applications.length === 0 ? 'Ingen søknader ennå' : showingClosed ? 'Ingen avsluttede søknader' : 'Ingen aktive søknader'}
             </p>
             <p className="text-sm text-[#475569] mb-6">
               {applications.length === 0
                 ? 'Legg til din første søknad for å komme i gang.'
-                : !showClosed
-                ? 'Alle søknader er avsluttet. Huk av «Vis avsluttede» for å se dem.'
-                : 'Prøv et annet søkeord eller filter.'}
+                : showingClosed
+                ? 'Prøv et annet søkeord eller filter.'
+                : 'Alle søknader er avsluttet. Trykk «Avsluttede» for å se dem.'}
             </p>
             {applications.length === 0 && (
               <button
