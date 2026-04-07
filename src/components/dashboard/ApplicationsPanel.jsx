@@ -79,7 +79,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
       </div>
 
       {/* Verktøylinje */}
-      <div className="flex flex-wrap items-center gap-3 mb-5">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="relative flex-1 min-w-50">
           <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B] pointer-events-none" aria-hidden="true">🔍</span>
           <input
@@ -93,34 +93,6 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           />
         </div>
 
-        <div>
-          <label htmlFor="filter-status" className="sr-only">Filtrer etter status</label>
-          <select
-            id="filter-status"
-            value={filterStatus}
-            onChange={e => setFilterStatus(e.target.value)}
-            className="h-10 pl-3 pr-8 border-[1.5px] border-[#7B8FA8] rounded-lg text-sm text-[#0F172A] bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:border-[#2563EB] cursor-pointer"
-          >
-            <option value="">Alle</option>
-            <optgroup label="Status">
-              {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-            </optgroup>
-            <optgroup label="Utfall">
-              {OUTCOMES.map(o => <option key={o} value={o}>{o}</option>)}
-            </optgroup>
-          </select>
-        </div>
-
-        <label className="flex items-center gap-2 cursor-pointer select-none text-sm text-[#475569] font-medium">
-          <input
-            type="checkbox"
-            checked={showClosed}
-            onChange={e => setShowClosed(e.target.checked)}
-            className="w-4 h-4 rounded border-[#7B8FA8] accent-[#2563EB] cursor-pointer"
-          />
-          Vis avsluttede
-        </label>
-
         <button
           onClick={onAdd}
           aria-label="Legg til ny søknad"
@@ -129,6 +101,57 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           <span aria-hidden="true">+</span>
           Legg til søknad
         </button>
+      </div>
+
+      {/* Statusfilter */}
+      <div className="flex flex-wrap items-center gap-2 mb-5" role="group" aria-label="Filtrer etter status">
+        {['', ...STATUSES].map(s => (
+          <button
+            key={s || 'alle'}
+            onClick={() => setFilterStatus(s)}
+            aria-pressed={filterStatus === s}
+            className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+              filterStatus === s
+                ? 'bg-[#1E3A6B] border-[#1E3A6B] text-white'
+                : 'bg-white border-[#CBD5E1] text-[#475569] hover:border-[#7B8FA8] hover:text-[#0F172A]'
+            }`}
+          >
+            {s || 'Alle'}
+          </button>
+        ))}
+
+        {showClosed && (
+          <>
+            <span className="w-px h-5 bg-[#E2E8F0]" aria-hidden="true" />
+            {OUTCOMES.map(o => (
+              <button
+                key={o}
+                onClick={() => setFilterStatus(prev => prev === o ? '' : o)}
+                aria-pressed={filterStatus === o}
+                className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+                  filterStatus === o
+                    ? 'bg-[#64748B] border-[#64748B] text-white'
+                    : 'bg-white border-[#CBD5E1] text-[#94A3B8] hover:border-[#7B8FA8] hover:text-[#475569]'
+                }`}
+              >
+                {o}
+              </button>
+            ))}
+          </>
+        )}
+
+        <label className="ml-auto flex items-center gap-2 cursor-pointer select-none text-sm text-[#475569] font-medium">
+          <input
+            type="checkbox"
+            checked={showClosed}
+            onChange={e => {
+              setShowClosed(e.target.checked)
+              if (!e.target.checked && OUTCOMES.includes(filterStatus)) setFilterStatus('')
+            }}
+            className="w-4 h-4 rounded border-[#7B8FA8] accent-[#2563EB] cursor-pointer"
+          />
+          Vis avsluttede
+        </label>
       </div>
 
       {/* Søknadsliste */}
