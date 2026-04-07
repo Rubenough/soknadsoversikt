@@ -5,7 +5,7 @@ import { RESOURCES } from '../data/resources'
 
 
 const FEATURES = [
-  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted — med bedrift, stilling, portal og status samlet. Aldri lur på om det var FINN, NAV eller noe annet du søkte via.' },
+  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted — bedrift, stilling, portal og status samlet. Aldri lur på hvilken portal du søkte via eller hvor du finner søknaden igjen.' },
   { icon: '🔔', title: 'Frister og påminnelser', desc: 'Legg inn søknadsfrister og få en tydelig oversikt over hva som haster. Vet alltid hva som er neste steg.' },
   { icon: '📊', title: 'Statistikk', desc: 'Se din svarprosent, andel intervjuer og hvordan jobbsøkingen går. Bruk tallene til å justere strategien din.' },
   { icon: '📱', title: 'Fungerer overalt', desc: 'Tilgjengelig på mobil, nettbrett og PC. Alt synkroniseres automatisk — logg inn fra hvilken som helst enhet.' },
