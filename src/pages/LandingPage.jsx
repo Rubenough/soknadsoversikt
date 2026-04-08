@@ -110,13 +110,10 @@ export default function LandingPage() {
         {/* ===== HERO ===== */}
         <section className="bg-[#1E3A6B] text-white py-20 px-6 text-center" aria-labelledby="hero-heading">
           <div className="max-w-180 mx-auto">
-            <div
-              className="inline-flex items-center gap-1.5 bg-white/12 border border-white/25 text-white text-[0.8125rem] font-semibold px-3.5 py-1.5 rounded-full mb-7"
-              aria-label="Gratis for alltid"
-            >
+            <p className="inline-flex items-center gap-1.5 bg-white/12 border border-white/25 text-white text-[0.8125rem] font-semibold px-3.5 py-1.5 rounded-full mb-7">
               <span aria-hidden="true">✓</span>
               100 % gratis · Logg inn med e-post
-            </div>
+            </p>
 
             <h1 id="hero-heading" className="text-[clamp(2rem,5vw,3rem)] font-extrabold leading-[1.15] text-white mb-5 text-balance">
               Hold styr på jobbsøknadene dine — uten stress
