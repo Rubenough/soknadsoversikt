@@ -72,6 +72,17 @@ src/
 
 ## Gjennomført (siste runde)
 
+### Tilgjengelighet (WCAG 2.1 AA)
+
+- [x] **Fargekontrast** — alle tekstfarger møter 4.5:1: `#94A3B8`→`#64748B`, `#D97706`→`#B45309`, `#EA580C`→`#C2410C`, `#DC2626`→`#B91C1C`, `#10B981`→`#047857`, `#3B82F6`→`#1D4ED8`, `#059669`→`#065F46`, footer `white/50`→`white/80`
+- [x] **W3C HTML-validering** — favicon SVG URL-enkodet, trailing slash på void-elementer fjernet, ugyldig `aria-label` på `<div>` i hero byttet til `<p>`
+- [x] **ARIA** — `role="status"` fjernet fra Badge (statisk element), `aria-label` som ikke matchet synlig tekst fjernet fra knapper (2.5.3), `aria-label` på `<span>` erstattet med sr-only tekst
+- [x] **Landmarks** — `<h1 class="sr-only">` plassert inne i `<header>` i Dashboard
+- [x] **Touch targets (44px)** — alle interaktive elementer har min. 44px klikkbart område (`min-h-11`/`h-11`): modal-lukk, kortknapper, filterpills, nav-tabs, logo-lenker, hamburger
+- [x] **Rollestruktur** — mobil-dropdown har `role="tablist"`, unike tab-IDs (`mob-tab-*`), statistikk-div endret til `<section aria-label>`
+- [x] **Alternativ tekst for grafer** — sr-only `<table>` for bar chart og pipeline-funnel
+- [x] **Statistikkbokser** — sr-only tekst for tall+label, synlig innhold `aria-hidden`
+
 ### Landingsside
 
 - [x] Innloggede brukere omdirigeres ikke lenger fra landingssiden — viser "Gå til dashboard" i stedet
