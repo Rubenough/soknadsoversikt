@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-@layer base {
-  p, li, td, th, label, span:not([aria-hidden="true"]) {
-    line-height: 1.5;
-  }
+@theme {
+  --text-xs--line-height: 1.5;
+  --text-sm--line-height: 1.5;
+  --text-base--line-height: 1.5;
 }
