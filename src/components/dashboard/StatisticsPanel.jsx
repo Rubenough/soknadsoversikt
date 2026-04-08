@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { RESOURCES } from '../../data/resources'
 
 const FUNNEL_STAGES = [
-  { label: 'Sendt',        color: '#3B82F6' },
-  { label: 'Fikk svar',    color: '#F59E0B' },
-  { label: 'Intervju',     color: '#10B981' },
-  { label: 'Tilbud',       color: '#8B5CF6' },
-  { label: 'Fått jobben',  color: '#059669' },
+  { label: 'Sendt',        color: '#2563EB' },
+  { label: 'Fikk svar',    color: '#B45309' },
+  { label: 'Intervju',     color: '#047857' },
+  { label: 'Tilbud',       color: '#7C3AED' },
+  { label: 'Fått jobben',  color: '#065F46' },
 ]
 
 function getISOWeek(d) {
@@ -112,7 +112,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
       {/* Kommende frister */}
       {upcomingDeadlines.length > 0 && (
         <div className="bg-[#FFF7ED] border border-[#FED7AA] rounded-xl p-4 mb-5">
-          <p className="text-xs font-bold tracking-widest uppercase text-[#EA580C] mb-3">Frister de neste 14 dagene</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-[#C2410C] mb-3">Frister de neste 14 dagene</p>
           <div className="flex flex-col gap-2">
             {upcomingDeadlines.map(a => {
               const d = new Date(a.deadline)
@@ -124,12 +124,12 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
                 <div key={a.id} className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <span className="text-sm font-medium text-[#0F172A] truncate block">{a.company}</span>
-                    <span className="text-xs text-[#64748B] truncate block">{a.position}</span>
+                    <span className="text-xs text-[#475569] truncate block">{a.position}</span>
                   </div>
                   <span className={`text-xs font-semibold shrink-0 px-2 py-0.5 rounded-full ${
                     urgent
-                      ? 'bg-[#FEE2E2] text-[#DC2626]'
-                      : 'bg-[#FED7AA] text-[#EA580C]'
+                      ? 'bg-[#FEE2E2] text-[#B91C1C]'
+                      : 'bg-[#FED7AA] text-[#C2410C]'
                   }`}>
                     {formatDeadline(a.deadline)}
                   </span>
@@ -164,7 +164,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
             value: intervjurate ?? '—',
             suffix: intervjurate !== null ? '%' : '',
             sub: null,
-            color: '#10B981',
+            color: '#047857',
             icon: '🤝',
           },
           {
@@ -178,11 +178,11 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
         ].map(({ label, value, suffix, sub, color, icon }) => (
           <div key={label} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
             <span className="text-base" aria-hidden="true">{icon}</span>
-            <span className="text-2xl font-bold tabular-nums" style={{ color }}>
-              {value}{suffix}
+            <span className="text-2xl font-bold tabular-nums" style={{ color }} aria-label={`${value}${suffix} ${label}`}>
+              <span aria-hidden="true">{value}{suffix}</span>
             </span>
-            <span className="text-xs text-[#64748B] font-medium">{label}</span>
-            {sub && <span className="text-[10px] text-[#94A3B8]">{sub}</span>}
+            <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">{label}</span>
+            {sub && <span className="text-[10px] text-[#64748B]">{sub}</span>}
           </div>
         ))}
       </div>
@@ -195,31 +195,42 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
           {total === 0 ? (
             <p className="text-sm text-[#64748B]">Ingen søknader ennå.</p>
           ) : (
-            <div aria-hidden="true">
-              <div className="flex items-end gap-1.5 h-20">
-                {displayWeeks.map((w, i) => (
-                  <div key={i} className="flex flex-col items-center gap-1 flex-1 h-full justify-end">
-                    <span className="text-[10px] text-[#64748B] tabular-nums leading-none font-medium">
-                      {w.count > 0 ? w.count : ''}
-                    </span>
-                    <div
-                      className="w-full rounded-t-sm"
-                      style={{
-                        height: `${Math.max((w.count / maxWeekCount) * 64, w.count > 0 ? 4 : 2)}px`,
-                        background: w.count > 0 ? '#2563EB' : '#E2E8F0',
-                      }}
-                    />
-                  </div>
-                ))}
+            <>
+              <table className="sr-only">
+                <caption>Søknader sendt per uke</caption>
+                <thead><tr><th scope="col">Uke</th><th scope="col">Antall søknader</th></tr></thead>
+                <tbody>
+                  {displayWeeks.map((w, i) => (
+                    <tr key={i}><td>{w.label}</td><td>{w.count}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+              <div aria-hidden="true">
+                <div className="flex items-end gap-1.5 h-20">
+                  {displayWeeks.map((w, i) => (
+                    <div key={i} className="flex flex-col items-center gap-1 flex-1 h-full justify-end">
+                      <span className="text-[10px] text-[#64748B] tabular-nums leading-none font-medium">
+                        {w.count > 0 ? w.count : ''}
+                      </span>
+                      <div
+                        className="w-full rounded-t-sm"
+                        style={{
+                          height: `${Math.max((w.count / maxWeekCount) * 64, w.count > 0 ? 4 : 2)}px`,
+                          background: w.count > 0 ? '#2563EB' : '#E2E8F0',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-1.5 mt-1.5">
+                  {displayWeeks.map((w, i) => (
+                    <div key={i} className="flex-1 text-center">
+                      <span className="text-[9px] text-[#64748B] leading-none">{w.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-1.5 mt-1.5">
-                {displayWeeks.map((w, i) => (
-                  <div key={i} className="flex-1 text-center">
-                    <span className="text-[9px] text-[#94A3B8] leading-none">{w.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </>
           )}
         </div>
 
@@ -229,31 +240,44 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
           {total === 0 ? (
             <p className="text-sm text-[#64748B]">Ingen søknader ennå.</p>
           ) : (
-            <div className="flex flex-col gap-3" aria-hidden="true">
-              {FUNNEL_STAGES.map((stage, i) => {
-                const count = funnelCounts[i]
-                const pct = total > 0 ? Math.round((count / total) * 100) : 0
-                return (
-                  <div key={stage.label}>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="flex items-center gap-2 text-[#0F172A]">
-                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: stage.color }} aria-hidden="true" />
-                        {stage.label}
-                      </span>
-                      <span className="text-[#64748B] tabular-nums">
-                        {count} <span className="text-[#94A3B8]">({pct}%)</span>
-                      </span>
+            <>
+              <table className="sr-only">
+                <caption>Pipeline — andel søknader per steg</caption>
+                <thead><tr><th scope="col">Steg</th><th scope="col">Antall</th><th scope="col">Andel</th></tr></thead>
+                <tbody>
+                  {FUNNEL_STAGES.map((stage, i) => {
+                    const count = funnelCounts[i]
+                    const pct = total > 0 ? Math.round((count / total) * 100) : 0
+                    return <tr key={stage.label}><td>{stage.label}</td><td>{count}</td><td>{pct}%</td></tr>
+                  })}
+                </tbody>
+              </table>
+              <div className="flex flex-col gap-3" aria-hidden="true">
+                {FUNNEL_STAGES.map((stage, i) => {
+                  const count = funnelCounts[i]
+                  const pct = total > 0 ? Math.round((count / total) * 100) : 0
+                  return (
+                    <div key={stage.label}>
+                      <div className="flex justify-between text-sm mb-1.5">
+                        <span className="flex items-center gap-2 text-[#0F172A]">
+                          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: stage.color }} aria-hidden="true" />
+                          {stage.label}
+                        </span>
+                        <span className="text-[#64748B] tabular-nums">
+                          {count} <span className="text-[#64748B]">({pct}%)</span>
+                        </span>
+                      </div>
+                      <div className="h-2 bg-[#F1F5F9] rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full"
+                          style={{ width: `${pct}%`, background: stage.color }}
+                        />
+                      </div>
                     </div>
-                    <div className="h-2 bg-[#F1F5F9] rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full"
-                        style={{ width: `${pct}%`, background: stage.color }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+                  )
+                })}
+              </div>
+            </>
           )}
         </div>
       </div>

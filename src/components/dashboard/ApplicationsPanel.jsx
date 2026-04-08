@@ -60,7 +60,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
       tabIndex={0}
     >
       {/* Statistikk-rad */}
-      <div className="mb-6" aria-label="Søknadsstatistikk">
+      <section className="mb-6" aria-label="Søknadsstatistikk">
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
           {STAT_CARDS.map(({ key, label, color, hoverShadow }) => (
             <div
@@ -76,7 +76,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Verktøylinje */}
       <div className="flex flex-wrap items-center gap-3 mb-4">

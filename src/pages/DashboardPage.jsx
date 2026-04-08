@@ -142,8 +142,6 @@ export default function DashboardPage() {
     <>
       <StatusMessage liveRef={liveRef} />
 
-      <h1 className="sr-only">soknadsoversikt.no — dashboard</h1>
-
       <a
         href="#main-content"
         className="absolute -top-full left-4 focus:top-3 z-50 bg-[#1E3A6B] text-white px-5 py-3 rounded-lg font-semibold text-sm no-underline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
@@ -152,6 +150,7 @@ export default function DashboardPage() {
       </a>
 
       <header role="banner" className="sticky top-0 z-40">
+        <h1 className="sr-only">soknadsoversikt.no — dashboard</h1>
         <nav className="bg-[#1E3A6B] flex items-center px-6 h-16 justify-between gap-6" aria-label="Appnavigasjon">
           <a
             href="/"

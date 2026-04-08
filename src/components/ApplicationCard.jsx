@@ -52,7 +52,7 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
 
       {/* Frist */}
       {deadline && (
-        <p className={`text-xs font-medium ${deadlinePassed ? 'text-[#DC2626]' : deadlineUrgent ? 'text-[#D97706]' : 'text-[#475569]'}`}>
+        <p className={`text-xs font-medium ${deadlinePassed ? 'text-[#B91C1C]' : deadlineUrgent ? 'text-[#B45309]' : 'text-[#475569]'}`}>
           Frist: {formatDate(deadline)}
           {deadlinePassed && ' — utløpt'}
           {deadlineUrgent && !deadlinePassed && ` — ${days === 0 ? 'i dag!' : `om ${days} dag${days !== 1 ? 'er' : ''}`}`}
