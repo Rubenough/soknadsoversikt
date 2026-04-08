@@ -34,14 +34,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-balance text-[#1E3A6B] mb-3">1. Hvem er ansvarlig for dataene?</h2>
             <p className="leading-relaxed">
-              soknadsoversikt.no er et personlig drevet verktøy for norske jobbsøkere. Tjenesten drives ikke av et
-              registrert selskap. Spørsmål om personvern kan sendes til{' '}
-              <a
-                href="mailto:hei@soknadsoversikt.no"
-                className="text-[#2563EB] hover:underline focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded"
-              >
-                hei@soknadsoversikt.no
-              </a>.
+              soknadsoversikt.no drives av Ruben Vareide (enkeltpersonforetak). Kontaktinformasjon kommer snart.
             </p>
           </section>
 
@@ -123,13 +116,7 @@ export default function PrivacyPage() {
               <li><strong>Klage</strong> — klage til Datatilsynet (<a href="https://www.datatilsynet.no" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded">datatilsynet.no</a>) om du mener vi behandler dataene dine feil.</li>
             </ul>
             <p className="leading-relaxed mt-3">
-              Send forespørsler til{' '}
-              <a
-                href="mailto:hei@soknadsoversikt.no"
-                className="text-[#2563EB] hover:underline focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded"
-              >
-                hei@soknadsoversikt.no
-              </a>.
+                Kontaktinformasjon for forespørsler kommer snart.
             </p>
           </section>
 

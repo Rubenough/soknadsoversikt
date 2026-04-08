@@ -330,7 +330,6 @@ export default function LandingPage() {
         </div>
         <div className="max-w-275 mx-auto pt-6 border-t border-white/10 flex flex-wrap justify-between items-center gap-4 text-[0.8125rem] text-white/75">
           <span>© {new Date().getFullYear()} soknadsoversikt.no</span>
-          <span>Laget med ❤️ for norske jobbsøkere</span>
         </div>
       </footer>
     </>
