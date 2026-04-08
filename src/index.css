@@ -1,7 +1,1 @@
 @import "tailwindcss";
-
-@theme {
-  --text-xs--line-height: 1.5;
-  --text-sm--line-height: 1.5;
-  --text-base--line-height: 1.5;
-}
