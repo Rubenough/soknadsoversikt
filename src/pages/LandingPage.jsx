@@ -49,7 +49,7 @@ export default function LandingPage() {
         <nav className="max-w-275 mx-auto px-6 h-16 flex items-center justify-between gap-8" aria-label="Hovednav">
           <a
             href="/"
-            className="flex items-center gap-2 text-[#1E3A6B] font-extrabold text-lg tracking-tight hover:opacity-80 focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded"
+            className="flex items-center min-h-11 gap-2 text-[#1E3A6B] font-extrabold text-lg tracking-tight hover:opacity-80 focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded"
             aria-label="soknadsoversikt.no — gå til forsiden"
           >
             <span aria-hidden="true" className="text-xl">📋</span>

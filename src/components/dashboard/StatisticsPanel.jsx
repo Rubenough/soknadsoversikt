@@ -156,7 +156,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
             value: svarrate ?? '—',
             suffix: svarrate !== null ? '%' : '',
             sub: null,
-            color: '#3B82F6',
+            color: '#1D4ED8',
             icon: '📬',
           },
           {
@@ -172,17 +172,18 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
             value: counts['Fått jobben'],
             suffix: '',
             sub: null,
-            color: '#059669',
+            color: '#065F46',
             icon: '🏆',
           },
         ].map(({ label, value, suffix, sub, color, icon }) => (
           <div key={label} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
             <span className="text-base" aria-hidden="true">{icon}</span>
-            <span className="text-2xl font-bold tabular-nums" style={{ color }} aria-label={`${value}${suffix} ${label}`}>
-              <span aria-hidden="true">{value}{suffix}</span>
+            <span className="sr-only">{label}: {value}{suffix}</span>
+            <span className="text-2xl font-bold tabular-nums" style={{ color }} aria-hidden="true">
+              {value}{suffix}
             </span>
             <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">{label}</span>
-            {sub && <span className="text-[10px] text-[#64748B]">{sub}</span>}
+            {sub && <span className="text-[10px] text-[#64748B]" aria-hidden="true">{sub}</span>}
           </div>
         ))}
       </div>

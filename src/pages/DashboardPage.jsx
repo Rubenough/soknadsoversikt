@@ -154,7 +154,7 @@ export default function DashboardPage() {
         <nav className="bg-[#1E3A6B] flex items-center px-6 h-16 justify-between gap-6" aria-label="Appnavigasjon">
           <a
             href="/"
-            className="flex items-center gap-2 text-white font-bold text-base shrink-0 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded"
+            className="flex items-center min-h-11 gap-2 text-white font-bold text-base shrink-0 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded"
             aria-label="soknadsoversikt.no — tilbake til forsiden"
           >
             <span aria-hidden="true">📋</span>
