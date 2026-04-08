@@ -58,7 +58,7 @@ export default function LandingPage() {
 
           {/* Mobil-hamburger */}
           <button
-            className="sm:hidden p-2 text-[#0F172A] rounded-lg hover:bg-[#F1F5F9] focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+            className="sm:hidden min-h-11 min-w-11 flex items-center justify-center text-[#0F172A] rounded-lg hover:bg-[#F1F5F9] focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
             aria-expanded={menuOpen}
             aria-controls="nav-links"
             aria-label={menuOpen ? 'Lukk meny' : 'Åpne meny'}
@@ -87,7 +87,7 @@ export default function LandingPage() {
                 <a
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className="block px-3.5 py-2 text-sm font-medium text-[#475569] rounded-lg hover:text-[#1E3A6B] hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+                  className="flex items-center min-h-11 px-3.5 text-sm font-medium text-[#475569] rounded-lg hover:text-[#1E3A6B] hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
                 >
                   {label}
                 </a>
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <li>
               <Link
                 to={session ? '/app' : '/login'}
-                className="block px-5 py-2 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+                className="flex items-center min-h-11 px-5 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
               >
                 {session ? 'Gå til dashboard →' : 'Start gratis →'}
               </Link>

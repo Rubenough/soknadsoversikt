@@ -75,7 +75,7 @@ export default function Modal({ isOpen, onClose, title, titleId = 'modal-title',
             ref={firstFocusRef}
             onClick={onClose}
             aria-label="Lukk dialog"
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+            className="w-11 h-11 flex items-center justify-center rounded-lg text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
           >
             <span aria-hidden="true" className="text-xl leading-none">×</span>
           </button>

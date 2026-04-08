@@ -74,7 +74,7 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Åpne søknad hos ${company}`}
-            className="flex-1 h-8 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 flex items-center justify-center"
+            className="flex-1 h-11 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 flex items-center justify-center"
           >
             Åpne →
           </a>
@@ -82,14 +82,14 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
         <button
           onClick={() => onEdit(application)}
           aria-label={`Rediger søknad hos ${company}`}
-          className="flex-1 h-8 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+          className="flex-1 h-11 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
         >
           Rediger
         </button>
         <button
           onClick={() => onDelete(application)}
           aria-label={`Slett søknad hos ${company}`}
-          className="flex-1 h-8 text-xs font-medium text-[#DC2626] rounded-lg hover:bg-[#FEE2E2] transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
+          className="flex-1 h-11 text-xs font-medium text-[#DC2626] rounded-lg hover:bg-[#FEE2E2] transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2 flex items-center justify-center"
         >
           Slett
         </button>

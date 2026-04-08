@@ -142,6 +142,8 @@ export default function DashboardPage() {
     <>
       <StatusMessage liveRef={liveRef} />
 
+      <h1 className="sr-only">soknadsoversikt.no — dashboard</h1>
+
       <a
         href="#main-content"
         className="absolute -top-full left-4 focus:top-3 z-50 bg-[#1E3A6B] text-white px-5 py-3 rounded-lg font-semibold text-sm no-underline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
@@ -185,7 +187,7 @@ export default function DashboardPage() {
                 aria-controls={`panel-${tab.id}`}
                 id={`tab-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
                   activeTab === tab.id
                     ? 'bg-white/15 text-white font-semibold'
                     : 'text-white/70 hover:bg-white/8 hover:text-white'
@@ -201,7 +203,7 @@ export default function DashboardPage() {
           <div className="hidden sm:flex items-center gap-2 ml-auto">
             <button
               onClick={signOut}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+              className="flex items-center gap-1.5 px-3.5 py-2 min-h-11 rounded-lg text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
             >
               <span aria-hidden="true">🚪</span>
               Logg ut
@@ -212,6 +214,8 @@ export default function DashboardPage() {
         {/* Mobil-dropdown */}
         <div
           id="app-nav-menu"
+          role="tablist"
+          aria-label="Seksjoner"
           className={`${menuOpen ? 'flex' : 'hidden'} sm:hidden flex-col bg-white border-b border-[#E2E8F0] px-4 py-3 gap-1`}
         >
           {TABS.map(tab => (
@@ -220,9 +224,9 @@ export default function DashboardPage() {
               role="tab"
               aria-selected={activeTab === tab.id}
               aria-controls={`panel-${tab.id}`}
-              id={`tab-${tab.id}`}
+              id={`mob-tab-${tab.id}`}
               onClick={() => { setActiveTab(tab.id); setMenuOpen(false) }}
-              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-left focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+              className={`flex items-center gap-3 px-3.5 min-h-11 rounded-lg text-sm font-medium transition-colors text-left focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
                 activeTab === tab.id
                   ? 'bg-[#EFF6FF] text-[#1E3A6B] font-semibold'
                   : 'text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B]'
@@ -235,7 +239,7 @@ export default function DashboardPage() {
           <div className="border-t border-[#E2E8F0] mt-1 pt-1">
             <button
               onClick={signOut}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+              className="flex items-center gap-3 px-3.5 min-h-11 rounded-lg text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1E3A6B] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
             >
               <span aria-hidden="true">🚪</span>
               Logg ut

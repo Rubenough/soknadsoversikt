@@ -67,7 +67,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
               key={key}
               className={`bg-white border border-[#E2E8F0] rounded-xl p-4 text-center border-t-[3px] ${color} ${hoverShadow} hover:-translate-y-0.5 transition-all duration-200`}
             >
-              <span className="block text-3xl font-bold text-[#1E3A6B] leading-none mb-1 tabular-nums">
+              <span className="block text-3xl font-bold text-[#1E3A6B] leading-tight mb-1 tabular-nums">
                 {counts[key] ?? 0}
               </span>
               <span className="text-[0.6875rem] font-semibold uppercase tracking-wider text-[#64748B]">
@@ -95,8 +95,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
 
         <button
           onClick={onAdd}
-          aria-label="Legg til ny søknad"
-          className="h-10 px-5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm rounded-lg flex items-center gap-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+          className="h-11 px-5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm rounded-lg flex items-center gap-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
         >
           <span aria-hidden="true">+</span>
           Legg til søknad
@@ -110,7 +109,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
             key={s || 'alle'}
             onClick={() => setFilterStatus(s)}
             aria-pressed={filterStatus === s}
-            className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
+            className={`h-11 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
               filterStatus === s
                 ? 'bg-[#1E3A6B] border-[#1E3A6B] text-white'
                 : 'bg-white border-[#CBD5E1] text-[#475569] hover:border-[#7B8FA8] hover:text-[#0F172A]'
@@ -167,7 +166,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
             {applications.length === 0 && (
               <button
                 onClick={onAdd}
-                className="h-10 px-5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+                className="h-11 px-5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
               >
                 + Legg til søknad
               </button>

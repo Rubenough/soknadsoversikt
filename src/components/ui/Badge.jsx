@@ -14,7 +14,6 @@ export default function Badge({ status }) {
   const style = STYLES[status] ?? 'bg-[#E2E8F0] text-[#475569]'
   return (
     <span
-      role="status"
       className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${style}`}
     >
       {status}
