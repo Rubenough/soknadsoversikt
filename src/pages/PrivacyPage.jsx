@@ -120,7 +120,7 @@ export default function PrivacyPage() {
               <li><strong>Retting</strong> — korrigere feil i egne data (direkte i appen).</li>
               <li><strong>Sletting</strong> — slette alle søknadsdata under Innstillinger i appen, eller be oss slette hele kontoen.</li>
               <li><strong>Dataportabilitet</strong> — eksportere alle søknadene dine som JSON fra Innstillinger-fanen.</li>
-              <li><strong>Klage</strong> — klage til Datatilsynet (<a href="https://www.datatilsynet.no" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline">datatilsynet.no</a>) om du mener vi behandler dataene dine feil.</li>
+              <li><strong>Klage</strong> — klage til Datatilsynet (<a href="https://www.datatilsynet.no" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded">datatilsynet.no</a>) om du mener vi behandler dataene dine feil.</li>
             </ul>
             <p className="leading-relaxed mt-3">
               Send forespørsler til{' '}
@@ -164,7 +164,7 @@ export default function PrivacyPage() {
 
       {/* Footer */}
       <footer className="border-t border-[#E2E8F0] px-6 py-6 mt-8">
-        <div className="max-w-[800px] mx-auto flex flex-wrap justify-between items-center gap-4 text-xs text-[#94A3B8]">
+        <div className="max-w-[800px] mx-auto flex flex-wrap justify-between items-center gap-4 text-xs text-[#64748B]">
           <span>© {new Date().getFullYear()} soknadsoversikt.no</span>
           <Link to="/" className="text-[#2563EB] hover:underline focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 rounded text-sm">
             Tilbake til forsiden

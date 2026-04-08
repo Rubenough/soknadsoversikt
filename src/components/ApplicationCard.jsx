@@ -31,7 +31,7 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
         <div className="flex flex-col items-end gap-1 shrink-0">
           <Badge status={outcome || status} />
           {outcome && (
-            <span className="text-xs text-[#94A3B8]">nådde {status.toLowerCase()}</span>
+            <span className="text-xs text-[#64748B]">nådde {status.toLowerCase()}</span>
           )}
         </div>
       </div>

@@ -128,7 +128,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           className={`h-8 px-3.5 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 ${
             showingClosed
               ? 'bg-[#64748B] border-[#64748B] text-white'
-              : 'bg-white border-[#CBD5E1] text-[#94A3B8] hover:border-[#7B8FA8] hover:text-[#475569]'
+              : 'bg-white border-[#CBD5E1] text-[#64748B] hover:border-[#7B8FA8] hover:text-[#475569]'
           }`}
         >
           Avsluttede

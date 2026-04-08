@@ -304,7 +304,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div>
-            <p className="text-[0.8125rem] font-bold tracking-widest uppercase text-white/50 mb-4">Produkt</p>
+            <p className="text-[0.8125rem] font-bold tracking-widest uppercase text-white/80 mb-4">Produkt</p>
             <ul className="flex flex-col gap-2.5 list-none">
               {['#fordeler','#slik-fungerer','#faq'].map((href, i) => (
                 <li key={href}>
@@ -316,7 +316,7 @@ export default function LandingPage() {
             </ul>
           </div>
           <div>
-            <p className="text-[0.8125rem] font-bold tracking-widest uppercase text-white/50 mb-4">Juridisk</p>
+            <p className="text-[0.8125rem] font-bold tracking-widest uppercase text-white/80 mb-4">Juridisk</p>
             <ul className="flex flex-col gap-2.5 list-none">
               <li>
                 <Link to="/personvern" className="text-[0.9rem] text-white/75 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 rounded">
@@ -331,7 +331,7 @@ export default function LandingPage() {
             </ul>
           </div>
         </div>
-        <div className="max-w-275 mx-auto pt-6 border-t border-white/10 flex flex-wrap justify-between items-center gap-4 text-[0.8125rem] text-white/45">
+        <div className="max-w-275 mx-auto pt-6 border-t border-white/10 flex flex-wrap justify-between items-center gap-4 text-[0.8125rem] text-white/75">
           <span>© {new Date().getFullYear()} soknadsoversikt.no</span>
           <span>Laget med ❤️ for norske jobbsøkere</span>
         </div>

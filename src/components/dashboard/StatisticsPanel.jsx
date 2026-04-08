@@ -191,7 +191,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
         {/* Søknader per uke */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5">
           <h3 className="font-semibold text-[#0F172A] mb-1">Søknader per uke</h3>
-          <p className="text-xs text-[#94A3B8] mb-5">Siste {displayWeeks.length} uker</p>
+          <p className="text-xs text-[#64748B] mb-5">Siste {displayWeeks.length} uker</p>
           {total === 0 ? (
             <p className="text-sm text-[#64748B]">Ingen søknader ennå.</p>
           ) : (
@@ -260,7 +260,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
 
       {/* Tips */}
       <div>
-        <p className="text-[0.75rem] font-bold tracking-widest uppercase text-[#94A3B8] mb-3">Kan hjelpe deg videre</p>
+        <p className="text-[0.75rem] font-bold tracking-widest uppercase text-[#64748B] mb-3">Kan hjelpe deg videre</p>
         <div className="flex flex-col divide-y divide-[#F1F5F9]">
           {RESOURCES.map(({ href, icon, title, desc }) => (
             <a
