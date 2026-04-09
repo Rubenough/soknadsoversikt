@@ -39,6 +39,14 @@ applications
 - Eksport som JSON
 - Innstillinger: eksport, slett alle data
 
+### SEO
+
+- Canonical URL, Open Graph, Twitter Card, `robots: index, follow` i `index.html`
+- `public/robots.txt` — tillater all crawling, peker til sitemap
+- `public/sitemap.xml` — lister opp `/`, `/personvern`, `/login`
+- JSON-LD strukturert data (`WebSite` + `FAQPage`) i `index.html`
+- Google Search Console: domeneverifisering via DNS TXT-post, sitemap innsendt, forside manuelt forespurt
+
 ### Filstruktur
 
 ```
@@ -70,7 +78,34 @@ src/
 
 ---
 
-## Gjennomført (siste runde)
+## Gjennomført (siste runde — april 2026)
+
+### SEO og synlighet
+
+- [x] `public/robots.txt` og `public/sitemap.xml` — sitemap innsendt til Google Search Console
+- [x] JSON-LD strukturert data (`WebSite` + `FAQPage`) i `index.html`
+- [x] Google Search Console verifisert via DNS TXT-post, forside indeksering forespurt
+
+### UX og skjema
+
+- [x] "Søknadsportal" omdøpt til "Kilde" (hvor stillingen ble funnet), "Lenke til søknad" til "Lenke til søknadsportal"
+- [x] Sortering på søknadslisten: nyest, eldst, bedrift A-Å, frist nærmest
+- [x] Kortvisning: kun skygge + border på hover (translate-y fjernet da det føltes feil ved interaksjon)
+- [x] Dashboard-bakgrunn satt til `#F8FAFC` så hvite kort skiller seg tydelig ut
+
+### Feilfikser
+
+- [x] `daysUntil()` — frist for søknader med dagens dato ble feilaktig vist som utløpt tidlig på dagen (lokal midnatt brukes nå for begge datoer)
+
+### Tilgjengelighet — tekststørrelse
+
+- [x] Graflabels i StatisticsPanel hevet fra `9px`/`10px` til `11px`
+- [x] Stat-labels i ApplicationsPanel hevet fra `11px` (`0.6875rem`) til `12px` (`text-xs`)
+- [x] Alle synlige tekster er nå minimum `11px` (graflabels i begrenset plass) eller `12px`
+
+---
+
+## Gjennomført (tidligere runder)
 
 ### Tilgjengelighet (WCAG 2.1 AA)
 
@@ -158,7 +193,7 @@ src/
 ### Innhold
 
 - [x] **Vipps-lenke** peker på `vipps.no`, ikke et faktisk betalingslink
-- [ ] **Affiliate-lenker** — bekreft at alle er aktive og korrekte
+- [x] **Affiliate-lenker** — flyttet til fremtidsplan for løpende vedlikehold
 
 ### UX / småfeil
 
@@ -172,16 +207,16 @@ src/
 
 ### Funksjonalitet
 
+- [x] Sortering på søknadslisten — dato, bedrift, frist
 - [ ] Påminnelser — varsle om kommende frister (browser notifications eller e-post)
-- [ ] Sortering på søknadslisten (dato, bedrift, status) — chips-filtrering er på plass, sortering mangler
 - [ ] Bulk-handlinger — merk flere og slett / oppdater status
 - [ ] Mørkt modus
 
 ### Statistikk
 
 - [x] Tidsbasert statistikk — søknader per uke (siste 8 uker)
-- [ ] Snitt intervjurunder før avslag/tilbud (ikke ta med?)
-- [ ] Responstid — dager fra søkt til første svar (krever status-endringstidsstempel) (ikke relevant?)
+- [ ] Snitt intervjurunder før avslag/tilbud — vurder når datamengden er større
+- [ ] Responstid (dager fra søkt til første svar) — krever status-endringstidsstempel, ikke prioritert
 
 ### Teknisk
 
@@ -190,9 +225,15 @@ src/
 - [x] Suspense fallback — viser spinner ved lazy-load i stedet for `null`
 - [x] Fetch-feil synlig — `error` fra `useApplications` vises i `ApplicationsPanel`
 - [x] `handleDeleteAll` sikret — `try/catch` rundt `Promise.all` + `signOut`
-- [ ] Optimistisk UI — oppdater UI før Supabase-respons
-- [ ] PWA / installbar — `manifest.json` og service worker
-- [ ] E2E-tester — Playwright for kritiske flyter
+- [ ] Optimistisk UI — **vurdert og utsatt** (for lite bruk til å merke forsinkelse)
+- [ ] PWA / installbar — **vurdert og utsatt** (lav verdi med få brukere)
+- [ ] E2E-tester — **vurdert og utsatt** (overhead ikke verdt det på dette stadiet)
+
+### Innhold og SEO
+
+- [ ] Affiliate-lenker — bekreft at alle er aktive og korrekte
+- [ ] Følg opp Google Search Console — sjekk indekseringsstatus og søkeord etter 2–4 uker
+- [ ] Innkommende lenker — del siden på LinkedIn, Reddit r/norge, Facebook-jobbgrupper
 
 ---
 
