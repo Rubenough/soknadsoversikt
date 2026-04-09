@@ -1,14 +1,5 @@
 import Badge from './ui/Badge'
 
-const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
-
-const STATUS_STYLES = {
-  'Sendt':         'bg-[#DBEAFE] text-[#1E3A8A]',
-  'Til vurdering': 'bg-[#FEF3C7] text-[#78350F]',
-  'Intervju':      'bg-[#DCFCE7] text-[#14532D]',
-  'Tilbud':        'bg-[#D1FAE5] text-[#065F46]',
-}
-
 function formatDate(iso) {
   if (!iso) return null
   const [y, m, d] = iso.split('-')
@@ -24,7 +15,7 @@ function daysUntil(iso) {
   return Math.ceil((deadline - today) / 86400000)
 }
 
-export default function ApplicationCard({ application, onEdit, onDelete, onStatusChange }) {
+export default function ApplicationCard({ application, onEdit, onDelete }) {
   const { company, position, status, outcome, interview_round, portal, url, applied_at, deadline, contact, notes } = application
   const days = daysUntil(deadline)
   const deadlineUrgent = days !== null && days <= 3 && days >= 0
@@ -42,20 +33,9 @@ export default function ApplicationCard({ application, onEdit, onDelete, onStatu
           <p className="text-sm text-[#475569] truncate">{position}</p>
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
-          {outcome ? (
-            <>
-              <Badge status={outcome} />
-              <span className="text-xs text-[#64748B]">nådde {status.toLowerCase()}</span>
-            </>
-          ) : (
-            <select
-              value={status}
-              onChange={e => onStatusChange(application.id, e.target.value)}
-              aria-label="Endre status"
-              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-1 border-0 ${STATUS_STYLES[status] ?? 'bg-[#E2E8F0] text-[#475569]'}`}
-            >
-              {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
+          <Badge status={outcome || status} />
+          {outcome && (
+            <span className="text-xs text-[#64748B]">nådde {status.toLowerCase()}</span>
           )}
         </div>
       </div>

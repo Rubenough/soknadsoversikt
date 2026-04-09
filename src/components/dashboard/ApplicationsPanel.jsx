@@ -34,7 +34,7 @@ function CardSkeleton() {
   )
 }
 
-export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete, onStatusChange }) {
+export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [sort, setSort] = useState('date-desc')
@@ -204,7 +204,6 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
                   application={app}
                   onEdit={onEdit}
                   onDelete={onDelete}
-                  onStatusChange={onStatusChange}
                 />
               </div>
             ))}

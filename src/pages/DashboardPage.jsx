@@ -102,17 +102,6 @@ export default function DashboardPage() {
     }
   }
 
-  async function handleStatusChange(id, status) {
-    const app = applications.find(a => a.id === id)
-    if (!app) return
-    try {
-      await updateApplication(id, { ...app, status })
-      announce(`Status oppdatert til ${status}`)
-    } catch {
-      announce('Kunne ikke oppdatere status — prøv igjen')
-    }
-  }
-
   async function handleDeleteAll() {
     try {
       await Promise.all(applications.map(app => deleteApplication(app.id)))
@@ -258,7 +247,8 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 py-6 overflow-x-hidden">
+      <main id="main-content" className="bg-[#F8FAFC] min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 overflow-x-hidden">
         <ApplicationsPanel
           hidden={activeTab !== 'soknader'}
           counts={counts}
@@ -268,7 +258,6 @@ export default function DashboardPage() {
           onAdd={openAdd}
           onEdit={openEdit}
           onDelete={setDeleteTarget}
-          onStatusChange={handleStatusChange}
         />
         <StatisticsPanel
           hidden={activeTab !== 'statistikk'}
@@ -282,6 +271,7 @@ export default function DashboardPage() {
           onDeleteAll={() => setDeleteAllOpen(true)}
           onDeleteAccount={() => setDeleteAccountOpen(true)}
         />
+        </div>
       </main>
 
       {/* Modal: Legg til / Rediger søknad */}
