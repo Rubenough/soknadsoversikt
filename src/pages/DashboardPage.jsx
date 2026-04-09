@@ -102,6 +102,17 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleStatusChange(id, status) {
+    const app = applications.find(a => a.id === id)
+    if (!app) return
+    try {
+      await updateApplication(id, { ...app, status })
+      announce(`Status oppdatert til ${status}`)
+    } catch {
+      announce('Kunne ikke oppdatere status — prøv igjen')
+    }
+  }
+
   async function handleDeleteAll() {
     try {
       await Promise.all(applications.map(app => deleteApplication(app.id)))
@@ -257,6 +268,7 @@ export default function DashboardPage() {
           onAdd={openAdd}
           onEdit={openEdit}
           onDelete={setDeleteTarget}
+          onStatusChange={handleStatusChange}
         />
         <StatisticsPanel
           hidden={activeTab !== 'statistikk'}

@@ -34,22 +34,34 @@ function CardSkeleton() {
   )
 }
 
-export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
+export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete, onStatusChange }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
+  const [sort, setSort] = useState('date-desc')
 
   const showingClosed = filterStatus === 'avsluttede'
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
-    return applications.filter(a => {
+    const list = applications.filter(a => {
       const isClosed = Boolean(a.outcome)
       if (showingClosed !== isClosed) return false
       const matchSearch = !q || a.company.toLowerCase().includes(q) || a.position.toLowerCase().includes(q)
       const matchStatus = showingClosed || !filterStatus || a.status === filterStatus
       return matchSearch && matchStatus
     })
-  }, [applications, search, filterStatus, showingClosed])
+    return list.sort((a, b) => {
+      if (sort === 'date-asc') return new Date(a.applied_at) - new Date(b.applied_at)
+      if (sort === 'company')  return a.company.localeCompare(b.company, 'nb')
+      if (sort === 'deadline') {
+        if (!a.deadline && !b.deadline) return 0
+        if (!a.deadline) return 1
+        if (!b.deadline) return -1
+        return new Date(a.deadline) - new Date(b.deadline)
+      }
+      return new Date(b.applied_at) - new Date(a.applied_at)
+    })
+  }, [applications, search, filterStatus, showingClosed, sort])
 
   return (
     <section
@@ -92,6 +104,18 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
             className="w-full h-10 pl-10 pr-3 border-[1.5px] border-[#7B8FA8] rounded-lg text-sm text-[#0F172A] bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:border-[#2563EB]"
           />
         </div>
+
+        <select
+          value={sort}
+          onChange={e => setSort(e.target.value)}
+          aria-label="Sorter søknader"
+          className="h-10 px-3 border-[1.5px] border-[#7B8FA8] rounded-lg text-sm text-[#0F172A] bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:border-[#2563EB]"
+        >
+          <option value="date-desc">Nyest først</option>
+          <option value="date-asc">Eldst først</option>
+          <option value="company">Bedrift (A-Å)</option>
+          <option value="deadline">Frist (nærmest)</option>
+        </select>
 
         <button
           onClick={onAdd}
@@ -180,6 +204,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
                   application={app}
                   onEdit={onEdit}
                   onDelete={onDelete}
+                  onStatusChange={onStatusChange}
                 />
               </div>
             ))}
