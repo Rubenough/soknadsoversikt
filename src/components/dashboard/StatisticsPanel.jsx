@@ -210,7 +210,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
                 <div className="flex items-end gap-1.5 h-20">
                   {displayWeeks.map((w, i) => (
                     <div key={i} className="flex flex-col items-center gap-1 flex-1 h-full justify-end">
-                      <span className="text-[10px] text-[#64748B] tabular-nums leading-none font-medium">
+                      <span className="text-[11px] text-[#64748B] tabular-nums leading-none font-medium">
                         {w.count > 0 ? w.count : ''}
                       </span>
                       <div
@@ -226,7 +226,7 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
                 <div className="flex gap-1.5 mt-1.5">
                   {displayWeeks.map((w, i) => (
                     <div key={i} className="flex-1 text-center">
-                      <span className="text-[9px] text-[#64748B] leading-none">{w.label}</span>
+                      <span className="text-[11px] text-[#64748B] leading-none">{w.label}</span>
                     </div>
                   ))}
                 </div>

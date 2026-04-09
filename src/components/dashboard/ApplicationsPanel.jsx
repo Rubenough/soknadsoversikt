@@ -82,7 +82,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
               <span className="block text-3xl font-bold text-[#1E3A6B] leading-tight mb-1 tabular-nums">
                 {counts[key] ?? 0}
               </span>
-              <span className="text-[0.6875rem] font-semibold uppercase tracking-wider text-[#64748B]">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">
                 {label}
               </span>
             </div>
