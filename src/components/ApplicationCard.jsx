@@ -32,7 +32,7 @@ export default function ApplicationCard({ application, onEdit, onDelete, onStatu
 
   return (
     <article
-      className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200"
+      className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg hover:border-[#CBD5E1] transition-[box-shadow,border-color] duration-200"
       aria-label={`Søknad hos ${company}`}
     >
       {/* Topp: bedrift + badges */}
@@ -52,7 +52,7 @@ export default function ApplicationCard({ application, onEdit, onDelete, onStatu
               value={status}
               onChange={e => onStatusChange(application.id, e.target.value)}
               aria-label="Endre status"
-              className={`appearance-none px-2.5 py-0.5 rounded-full text-xs font-semibold cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-1 border-0 ${STATUS_STYLES[status] ?? 'bg-[#E2E8F0] text-[#475569]'}`}
+              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-1 border-0 ${STATUS_STYLES[status] ?? 'bg-[#E2E8F0] text-[#475569]'}`}
             >
               {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
