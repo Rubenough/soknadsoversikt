@@ -136,21 +136,21 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
           </FieldGroup>
         </div>
 
-        {/* Søknadsportal */}
-        <FieldGroup label="Søknadsportal" htmlFor="field-portal">
+        {/* Kilde */}
+        <FieldGroup label="Kilde" htmlFor="field-portal">
           <input
             id="field-portal"
             name="portal"
             type="text"
             value={fields.portal}
             onChange={e => set('portal', e.target.value)}
-            placeholder="f.eks. finn.no, LinkedIn"
+            placeholder="f.eks. finn.no, LinkedIn, bekjent…"
             className={inputClass()}
           />
         </FieldGroup>
 
         {/* Lenke */}
-        <FieldGroup label="Lenke til søknad" htmlFor="field-url">
+        <FieldGroup label="Lenke til søknadsportal" htmlFor="field-url">
           <input
             id="field-url"
             name="url"
