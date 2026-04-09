@@ -24,6 +24,76 @@
     <meta name="twitter:title" content="soknadsoversikt.no — Gratis jobbsøkingstracker">
     <meta name="twitter:description" content="Hold styr på jobbsøknadene dine. Norsk, gratis, ingen passord.">
     <meta name="twitter:image" content="https://soknadsoversikt.no/og-image.png">
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://soknadsoversikt.no/#website",
+          "url": "https://soknadsoversikt.no/",
+          "name": "soknadsoversikt.no",
+          "description": "Gratis søknadstracker for norske jobbsøkere",
+          "inLanguage": "nb-NO"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://soknadsoversikt.no/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Trenger jeg en brukerkonto?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Du logger inn med magic link — skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord å huske, ingen skjema å fylle ut."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Hvor lagres dataene mine?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Søknadene dine lagres trygt i EU (Frankfurt) via Supabase. Ingen kan se dataene dine — de er beskyttet av Row Level Security slik at bare du har tilgang."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Kan jeg bruke appen på flere enheter?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja. Fordi data lagres i skyen er søknadsoversikten din tilgjengelig på alle enhetene dine. Logg inn på mobil, nettbrett eller PC — alt synkroniseres automatisk."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Kan jeg eksportere søknadene mine?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja. Du kan eksportere alle søknadene som JSON fra innstillingssiden. Data er dine — ingen lock-in."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Koster det noe?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nei. soknadsoversikt.no er gratis. Ingen prøveperiode, ingen betalingsvegg, ingen skjult abonnement."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Fungerer det på mobil?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja. Siden er responsiv og tilpasset alle skjermstørrelser — telefon, nettbrett og PC."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
     <!-- Inter font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
