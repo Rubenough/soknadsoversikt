@@ -297,7 +297,7 @@ export default function LandingPage() {
               <span aria-hidden="true">📋</span> soknadsoversikt.no
             </p>
             <p className="text-sm leading-relaxed text-white/65 max-w-65">
-              Gratis søknadstracker for norske jobbsøkere. Enkel, ryddig og GDPR-trygg.
+              Gratis søknadsoversikt for norske jobbsøkere. Enkel, ryddig og GDPR-trygg.
             </p>
           </div>
           <div>
