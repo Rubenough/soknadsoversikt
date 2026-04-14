@@ -5,28 +5,28 @@ import { RESOURCES } from '../data/resources'
 
 
 const FEATURES = [
-  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted — bedrift, stilling, portal og status samlet. Aldri lur på hvilken portal du søkte via eller hvor du finner søknaden igjen.' },
+  { icon: '📋', title: 'Full oversikt', desc: 'Se alle søknadene dine på ett sted: bedrift, stilling, portal og status samlet. Aldri lur på hvilken portal du søkte via eller hvor du finner søknaden igjen.' },
   { icon: '🔔', title: 'Frister og påminnelser', desc: 'Legg inn søknadsfrister og få en tydelig oversikt over hva som haster. Vet alltid hva som er neste steg.' },
   { icon: '📊', title: 'Statistikk', desc: 'Se din svarprosent, andel intervjuer og hvordan jobbsøkingen går. Bruk tallene til å justere strategien din.' },
-  { icon: '📱', title: 'Fungerer overalt', desc: 'Tilgjengelig på mobil, nettbrett og PC. Alt synkroniseres automatisk — logg inn fra hvilken som helst enhet.' },
+  { icon: '📱', title: 'Fungerer overalt', desc: 'Tilgjengelig på mobil, nettbrett og PC. Alt synkroniseres automatisk. Logg inn fra hvilken som helst enhet.' },
   { icon: '📤', title: 'Eksporter dataene dine', desc: 'Last ned alle søknadene dine som JSON når du vil. Ingen lock-in, ingen abonnement.' },
   { icon: '🔒', title: 'Ingen sporing', desc: 'Ingen annonser, ingen tracking. Dataene dine er dine.' },
 ]
 
 const STEPS = [
-  { num: '1', title: 'Logg inn', desc: 'Skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord — du er i gang på sekunder.' },
+  { num: '1', title: 'Logg inn', desc: 'Skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord. Du er i gang på sekunder.' },
   { num: '2', title: 'Legg inn søknadene dine', desc: 'Fyll inn bedrift, stilling, dato og søknadsportal. Ta med frister og eventuelle kontaktpersoner.' },
-  { num: '3', title: 'Hold oversikten', desc: 'Oppdater status etter hvert — fra Sendt til Intervju til Tilbud. Alltid ett sted å slå opp: hvilken portal du brukte, hva som er neste steg, og når fristen er.' },
+  { num: '3', title: 'Hold oversikten', desc: 'Oppdater status etter hvert: Sendt, Intervju, Tilbud. Alltid ett sted å slå opp hvilken portal du brukte, hva som er neste steg, og når fristen er.' },
 ]
 
 
 const FAQ = [
-  { q: 'Trenger jeg en brukerkonto?', a: 'Du logger inn med magic link — skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord å huske, ingen skjema å fylle ut.' },
-  { q: 'Hvor lagres dataene mine?', a: 'Søknadene dine lagres trygt i EU (Frankfurt) via Supabase. Ingen kan se dataene dine — de er beskyttet av Row Level Security slik at bare du har tilgang.' },
-  { q: 'Kan jeg bruke appen på flere enheter?', a: 'Ja. Fordi data lagres i skyen er søknadsoversikten din tilgjengelig på alle enhetene dine. Logg inn på mobil, nettbrett eller PC — alt synkroniseres automatisk.' },
-  { q: 'Kan jeg eksportere søknadene mine?', a: 'Ja. Du kan eksportere alle søknadene som JSON fra innstillingssiden. Data er dine — ingen lock-in.' },
+  { q: 'Trenger jeg en brukerkonto?', a: 'Du logger inn med magic link: skriv inn e-postadressen din og klikk lenken vi sender deg. Ingen passord å huske, ingen skjema å fylle ut.' },
+  { q: 'Hvor lagres dataene mine?', a: 'Søknadene dine lagres trygt i EU (Frankfurt) via Supabase. Ingen kan se dataene dine, de er beskyttet av Row Level Security slik at bare du har tilgang.' },
+  { q: 'Kan jeg bruke appen på flere enheter?', a: 'Ja. Fordi data lagres i skyen er søknadsoversikten din tilgjengelig på alle enhetene dine. Logg inn på mobil, nettbrett eller PC, og alt synkroniseres automatisk.' },
+  { q: 'Kan jeg eksportere søknadene mine?', a: 'Ja. Du kan eksportere alle søknadene som JSON fra innstillingssiden. Data er dine. Ingen lock-in.' },
   { q: 'Koster det noe?', a: 'Nei. soknadsoversikt.no er gratis. Ingen prøveperiode, ingen betalingsvegg, ingen skjult abonnement.' },
-  { q: 'Fungerer det på mobil?', a: 'Ja. Siden er responsiv og tilpasset alle skjermstørrelser — telefon, nettbrett og PC.' },
+  { q: 'Fungerer det på mobil?', a: 'Ja. Siden er responsiv og tilpasset alle skjermstørrelser: telefon, nettbrett og PC.' },
 ]
 
 
@@ -116,11 +116,11 @@ export default function LandingPage() {
             </p>
 
             <h1 id="hero-heading" className="text-[clamp(2rem,5vw,3rem)] font-extrabold leading-[1.15] text-white mb-5 text-balance">
-              Hold styr på jobbsøknadene dine — uten stress
+              Hold styr på jobbsøknadene dine, uten stress
             </h1>
 
             <p className="text-lg text-white/88 mb-10 max-w-140 mx-auto leading-relaxed">
-              Husker du hvilken portal du søkte via? Logg søknadene dine ett sted — med portal, status og frister samlet — og slipp å logge inn overalt for å finne dem igjen.
+              Husker du hvilken portal du søkte via? Logg søknadene dine ett sted med portal, status og frister samlet. Slipp å logge inn overalt for å finne dem igjen.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
@@ -163,7 +163,7 @@ export default function LandingPage() {
           <div className="max-w-275 mx-auto">
             <span className="inline-block text-[0.8125rem] font-bold tracking-widest uppercase text-[#2563EB] mb-3">Hva du får</span>
             <h2 id="features-heading" className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-[#1E3A6B] text-balance mb-3">Alt du trenger for å holde oversikten</h2>
-            <p className="text-[#475569] text-[1.0625rem] mb-12 max-w-150">Enkelt og effektivt — designet for norske jobbsøkere.</p>
+            <p className="text-[#475569] text-[1.0625rem] mb-12 max-w-150">Enkelt og effektivt, designet for norske jobbsøkere.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {FEATURES.map(({ icon, title, desc }) => (
                 <article key={title} className="bg-white border border-[#E2E8F0] rounded-xl p-7 hover:shadow-lg hover:border-[#7B8FA8] transition-all">
@@ -265,7 +265,7 @@ export default function LandingPage() {
               />
             </div>
             <p className="text-[0.9375rem] text-[#475569] mb-1">Skann med kameraet eller Vipps-appen</p>
-            <p className="text-[0.8125rem] text-[#64748B] mb-4">Frivillig og valgfritt — appen er gratis uansett.</p>
+            <p className="text-[0.8125rem] text-[#64748B] mb-4">Frivillig og valgfritt. Appen er gratis uansett.</p>
             <p className="text-[0.8125rem] text-[#64748B]">Eller søk på <span className="font-semibold text-[#475569]">#46496</span> i Vipps</p>
           </div>
         </section>
