@@ -144,10 +144,10 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Åpne søknadsportal for ${company} (åpnes i ny fane)`}
-                  className="text-[#2563EB] hover:underline inline-flex items-center gap-1"
+                  className="text-sm text-[#2563EB] hover:underline inline-flex items-center gap-1 font-medium"
                 >
                   Åpne søknadsportal
-                  <span aria-hidden="true" className="text-xs">↗</span>
+                  <span aria-hidden="true">↗</span>
                 </a>
               </dd>
             </div>
@@ -236,16 +236,18 @@ function InterviewDetailsCard({ details }) {
         </p>
       )}
       {meeting_link && (
-        <a
-          href={meeting_link}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Åpne møtelenke (åpnes i ny fane)"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB] text-white rounded-md font-medium hover:bg-[#1D4ED8] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
-        >
-          Bli med i møtet
-          <span aria-hidden="true">↗</span>
-        </a>
+        <p>
+          <a
+            href={meeting_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Åpne møtelenke (åpnes i ny fane)"
+            className="text-sm text-[#2563EB] hover:underline inline-flex items-center gap-1 font-medium"
+          >
+            Bli med i møtet
+            <span aria-hidden="true">↗</span>
+          </a>
+        </p>
       )}
       {meeting_id && (
         <p className="text-[#475569]">
