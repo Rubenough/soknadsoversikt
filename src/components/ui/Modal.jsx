@@ -15,6 +15,9 @@ export default function Modal({ isOpen, onClose, title, titleId = 'modal-title',
       document.body.style.overflow = ''
       triggerRef.current?.focus()
     }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [isOpen])
 
   // Escape-lukking + focus trap
