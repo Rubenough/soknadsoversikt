@@ -1,6 +1,16 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 
+function cleanInterviewDetails(details) {
+  if (!details || typeof details !== 'object') return null
+  const cleaned = {}
+  for (const [round, fields] of Object.entries(details)) {
+    if (fields && Object.values(fields).some(v => v && v.trim?.()))
+      cleaned[round] = fields
+  }
+  return Object.keys(cleaned).length ? cleaned : null
+}
+
 export function useApplications(userId) {
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)
@@ -32,7 +42,7 @@ export function useApplications(userId) {
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
     if (!payload.interview_round) payload.interview_round = null
-    if (!payload.interview_details || Object.keys(payload.interview_details).length === 0) payload.interview_details = null
+    payload.interview_details = cleanInterviewDetails(payload.interview_details)
     const { data, error } = await supabase
       .from('applications')
       .insert([payload])
@@ -48,7 +58,7 @@ export function useApplications(userId) {
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
     if (!payload.interview_round) payload.interview_round = null
-    if (!payload.interview_details || Object.keys(payload.interview_details).length === 0) payload.interview_details = null
+    payload.interview_details = cleanInterviewDetails(payload.interview_details)
     const { data, error } = await supabase
       .from('applications')
       .update(payload)

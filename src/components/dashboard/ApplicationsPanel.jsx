@@ -26,10 +26,6 @@ function CardSkeleton() {
         <div className="h-3 bg-[#F1F5F9] rounded w-20" />
         <div className="h-3 bg-[#F1F5F9] rounded w-16" />
       </div>
-      <div className="flex gap-2 pt-1 border-t border-[#F1F5F9]">
-        <div className="flex-1 h-8 bg-[#F1F5F9] rounded-lg" />
-        <div className="flex-1 h-8 bg-[#F1F5F9] rounded-lg" />
-      </div>
     </div>
   )
 }
