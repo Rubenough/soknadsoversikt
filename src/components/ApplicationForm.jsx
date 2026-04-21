@@ -150,7 +150,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   type="text"
                   value={currentRoundDetails.contact_person || ''}
                   onChange={e => setInterviewDetail('contact_person', e.target.value)}
-                  placeholder="f.eks. Torstein Skulbru"
+                  placeholder="f.eks. Ola Nordmann"
                   className={inputClass()}
                 />
               </FieldGroup>
@@ -178,7 +178,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   type="url"
                   value={currentRoundDetails.meeting_link || ''}
                   onChange={e => setInterviewDetail('meeting_link', e.target.value)}
-                  placeholder="https://teams.microsoft.com/..."
+                  placeholder="https://teams.microsoft.com/meet/..."
                   className={inputClass()}
                 />
               </FieldGroup>
@@ -188,7 +188,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   type="text"
                   value={currentRoundDetails.meeting_id || ''}
                   onChange={e => setInterviewDetail('meeting_id', e.target.value)}
-                  placeholder="f.eks. 320 960 246 620 829"
+                  placeholder="f.eks. 123 456 789"
                   className={inputClass()}
                 />
               </FieldGroup>
@@ -198,7 +198,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   type="text"
                   value={currentRoundDetails.passcode || ''}
                   onChange={e => setInterviewDetail('passcode', e.target.value)}
-                  placeholder="f.eks. Wn7za6QJ"
+                  placeholder="f.eks. abc123"
                   className={inputClass()}
                 />
               </FieldGroup>
