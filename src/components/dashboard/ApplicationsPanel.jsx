@@ -34,7 +34,7 @@ function CardSkeleton() {
   )
 }
 
-export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onEdit, onDelete }) {
+export default function ApplicationsPanel({ hidden, counts, applications, loading, error, onAdd, onCardClick }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [sort, setSort] = useState('date-desc')
@@ -202,8 +202,7 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
               <div key={app.id} role="listitem">
                 <ApplicationCard
                   application={app}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
+                  onClick={() => onCardClick(app)}
                 />
               </div>
             ))}

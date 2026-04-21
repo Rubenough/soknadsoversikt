@@ -15,6 +15,7 @@ const EMPTY = {
   deadline: '',
   contact: '',
   notes: '',
+  interview_details: {},
 }
 
 export default function ApplicationForm({ initial, onSubmit, onCancel, saving }) {
@@ -51,6 +52,22 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
   }
 
   const showInterviewRound = fields.status === 'Intervju' || fields.status === 'Tilbud'
+  const showInterviewDetails = showInterviewRound && fields.interview_round
+  const currentRoundDetails = fields.interview_details?.[String(fields.interview_round)] || {}
+
+  function setInterviewDetail(key, value) {
+    const round = String(fields.interview_round)
+    setFields(prev => ({
+      ...prev,
+      interview_details: {
+        ...prev.interview_details,
+        [round]: {
+          ...(prev.interview_details?.[round] || {}),
+          [key]: value,
+        },
+      },
+    }))
+  }
 
   return (
     <form id="application-form" noValidate onSubmit={handleSubmit}>
@@ -118,6 +135,75 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
               ))}
             </select>
           </FieldGroup>
+        )}
+
+        {/* Intervjudetaljer — vises når runde er valgt */}
+        {showInterviewDetails && (
+          <fieldset className="sm:col-span-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-4">
+            <legend className="text-sm font-semibold text-[#0F172A] px-1">
+              Intervjudetaljer — Runde {fields.interview_round}
+            </legend>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+              <FieldGroup label="Kontaktperson" htmlFor="field-iv-contact">
+                <input
+                  id="field-iv-contact"
+                  type="text"
+                  value={currentRoundDetails.contact_person || ''}
+                  onChange={e => setInterviewDetail('contact_person', e.target.value)}
+                  placeholder="f.eks. Torstein Skulbru"
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="Dato" htmlFor="field-iv-date">
+                <input
+                  id="field-iv-date"
+                  type="date"
+                  value={currentRoundDetails.interview_date || ''}
+                  onChange={e => setInterviewDetail('interview_date', e.target.value)}
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="Klokkeslett" htmlFor="field-iv-time">
+                <input
+                  id="field-iv-time"
+                  type="time"
+                  value={currentRoundDetails.interview_time || ''}
+                  onChange={e => setInterviewDetail('interview_time', e.target.value)}
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="Møtelenke" htmlFor="field-iv-link">
+                <input
+                  id="field-iv-link"
+                  type="url"
+                  value={currentRoundDetails.meeting_link || ''}
+                  onChange={e => setInterviewDetail('meeting_link', e.target.value)}
+                  placeholder="https://teams.microsoft.com/..."
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="Møte-ID" htmlFor="field-iv-meeting-id">
+                <input
+                  id="field-iv-meeting-id"
+                  type="text"
+                  value={currentRoundDetails.meeting_id || ''}
+                  onChange={e => setInterviewDetail('meeting_id', e.target.value)}
+                  placeholder="f.eks. 320 960 246 620 829"
+                  className={inputClass()}
+                />
+              </FieldGroup>
+              <FieldGroup label="Passord/kode" htmlFor="field-iv-passcode">
+                <input
+                  id="field-iv-passcode"
+                  type="text"
+                  value={currentRoundDetails.passcode || ''}
+                  onChange={e => setInterviewDetail('passcode', e.target.value)}
+                  placeholder="f.eks. Wn7za6QJ"
+                  className={inputClass()}
+                />
+              </FieldGroup>
+            </div>
+          </fieldset>
         )}
 
         {/* Utfall — alltid i venstre kolonne */}

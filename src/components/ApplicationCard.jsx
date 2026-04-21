@@ -1,31 +1,25 @@
 import Badge from './ui/Badge'
+import { formatDate, daysUntil } from '../utils/dates'
 
-function formatDate(iso) {
-  if (!iso) return null
-  const [y, m, d] = iso.split('-')
-  return `${d}.${m}.${y}`
-}
-
-function daysUntil(iso) {
-  if (!iso) return null
-  const [y, m, d] = iso.split('-').map(Number)
-  const deadline = new Date(y, m - 1, d)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return Math.ceil((deadline - today) / 86400000)
-}
-
-export default function ApplicationCard({ application, onEdit, onDelete }) {
-  const { company, position, status, outcome, interview_round, portal, url, applied_at, deadline, contact, notes } = application
+export default function ApplicationCard({ application, onClick }) {
+  const { company, position, status, outcome, interview_round, applied_at, deadline, portal, contact, notes } = application
   const days = daysUntil(deadline)
   const deadlineUrgent = days !== null && days <= 3 && days >= 0
   const deadlinePassed = days !== null && days < 0
 
   return (
     <article
-      className="bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg hover:border-[#CBD5E1] transition-[box-shadow,border-color] duration-200"
+      className="relative bg-white border border-[#E2E8F0] rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg hover:border-[#CBD5E1] transition-[box-shadow,border-color] duration-200 cursor-pointer focus-within:ring-2 focus-within:ring-[#2563EB] focus-within:ring-offset-2 focus-within:rounded-xl"
       aria-label={`Søknad hos ${company}`}
     >
+      {/* Invisible button covering entire card */}
+      <button
+        onClick={onClick}
+        aria-label={`Vis detaljer for søknad hos ${company}`}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus:outline-none"
+        tabIndex={0}
+      />
+
       {/* Topp: bedrift + badges */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -69,35 +63,6 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
           {notes}
         </p>
       )}
-
-      {/* Handlinger */}
-      <div className="flex gap-2 pt-1 border-t border-[#F1F5F9]">
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Åpne søknad hos ${company}`}
-            className="flex-1 h-11 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 flex items-center justify-center"
-          >
-            Åpne →
-          </a>
-        )}
-        <button
-          onClick={() => onEdit(application)}
-          aria-label={`Rediger søknad hos ${company}`}
-          className="flex-1 h-11 text-xs font-medium text-[#2563EB] rounded-lg hover:bg-[#EFF6FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
-        >
-          Rediger
-        </button>
-        <button
-          onClick={() => onDelete(application)}
-          aria-label={`Slett søknad hos ${company}`}
-          className="flex-1 h-11 text-xs font-medium text-[#DC2626] rounded-lg hover:bg-[#FEE2E2] transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2 flex items-center justify-center"
-        >
-          Slett
-        </button>
-      </div>
     </article>
   )
 }

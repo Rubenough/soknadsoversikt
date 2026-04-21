@@ -32,6 +32,7 @@ export function useApplications(userId) {
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
     if (!payload.interview_round) payload.interview_round = null
+    if (!payload.interview_details || Object.keys(payload.interview_details).length === 0) payload.interview_details = null
     const { data, error } = await supabase
       .from('applications')
       .insert([payload])
@@ -47,6 +48,7 @@ export function useApplications(userId) {
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
     if (!payload.interview_round) payload.interview_round = null
+    if (!payload.interview_details || Object.keys(payload.interview_details).length === 0) payload.interview_details = null
     const { data, error } = await supabase
       .from('applications')
       .update(payload)

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useApplications } from '../hooks/useApplications'
 import ApplicationForm from '../components/ApplicationForm'
+import ApplicationDetailModal from '../components/ApplicationDetailModal'
 import Modal from '../components/ui/Modal'
 import StatusMessage, { useStatusMessage } from '../components/ui/StatusMessage'
 import ApplicationsPanel from '../components/dashboard/ApplicationsPanel'
@@ -41,6 +42,7 @@ export default function DashboardPage() {
   const [saving, setSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [detailTarget, setDetailTarget] = useState(null)
   const [deleteAllOpen, setDeleteAllOpen] = useState(false)
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false)
   const [deletingAccount, setDeletingAccount] = useState(false)
@@ -256,8 +258,7 @@ export default function DashboardPage() {
           loading={loading}
           error={error}
           onAdd={openAdd}
-          onEdit={openEdit}
-          onDelete={setDeleteTarget}
+          onCardClick={setDetailTarget}
         />
         <StatisticsPanel
           hidden={activeTab !== 'statistikk'}
@@ -273,6 +274,21 @@ export default function DashboardPage() {
         />
         </div>
       </main>
+
+      {/* Modal: Detaljer */}
+      <ApplicationDetailModal
+        application={detailTarget}
+        isOpen={!!detailTarget}
+        onClose={() => setDetailTarget(null)}
+        onEdit={(app) => {
+          setDetailTarget(null)
+          requestAnimationFrame(() => openEdit(app))
+        }}
+        onDelete={(app) => {
+          setDetailTarget(null)
+          requestAnimationFrame(() => setDeleteTarget(app))
+        }}
+      />
 
       {/* Modal: Legg til / Rediger søknad */}
       <Modal
