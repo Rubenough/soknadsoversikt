@@ -17,17 +17,7 @@ function getISOWeek(d) {
   return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7)
 }
 
-function formatDeadline(dateStr) {
-  const d = new Date(dateStr)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const diff = Math.round((d - today) / (24 * 3600 * 1000))
-  if (diff === 0) return 'I dag'
-  if (diff === 1) return 'I morgen'
-  return d.toLocaleDateString('nb-NO', { day: 'numeric', month: 'short' })
-}
-
-export default function StatisticsPanel({ hidden, counts, applications }) {
+export default function StatisticsPanel({ hidden, applications }) {
   const total = applications.length
 
   const { svarrate, intervjurate } = useMemo(() => {
@@ -86,17 +76,15 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
 
   const maxWeekCount = Math.max(...displayWeeks.map(w => w.count), 1)
 
-  const upcomingDeadlines = useMemo(() => {
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
-    const in14days = new Date(now.getTime() + 14 * 24 * 3600 * 1000)
-    return applications
-      .filter(a => {
-        if (!a.deadline || a.outcome) return false
-        const d = new Date(a.deadline)
-        return d >= now && d <= in14days
-      })
-      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+  const intervjuKonvertering = useMemo(() => {
+    const interviewed = applications.filter(a =>
+      a.status === 'Intervju' || a.status === 'Tilbud' || a.outcome === 'Fått jobben'
+    ).length
+    if (interviewed === 0) return null
+    const converted = applications.filter(a =>
+      a.status === 'Tilbud' || a.outcome === 'Fått jobben'
+    ).length
+    return Math.round((converted / interviewed) * 100)
   }, [applications])
 
   return (
@@ -108,37 +96,6 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
       tabIndex={0}
     >
       <h2 className="text-xl font-bold text-[#1E3A6B] mb-6">Statistikk</h2>
-
-      {/* Kommende frister */}
-      {upcomingDeadlines.length > 0 && (
-        <div className="bg-[#FFF7ED] border border-[#FED7AA] rounded-xl p-4 mb-5">
-          <p className="text-xs font-bold tracking-widest uppercase text-[#C2410C] mb-3">Frister de neste 14 dagene</p>
-          <div className="flex flex-col gap-2">
-            {upcomingDeadlines.map(a => {
-              const d = new Date(a.deadline)
-              const today = new Date()
-              today.setHours(0, 0, 0, 0)
-              const diff = Math.round((d - today) / (24 * 3600 * 1000))
-              const urgent = diff <= 2
-              return (
-                <div key={a.id} className="flex items-center justify-between gap-4">
-                  <div className="min-w-0">
-                    <span className="text-sm font-medium text-[#0F172A] truncate block">{a.company}</span>
-                    <span className="text-xs text-[#475569] truncate block">{a.position}</span>
-                  </div>
-                  <span className={`text-xs font-semibold shrink-0 px-2 py-0.5 rounded-full ${
-                    urgent
-                      ? 'bg-[#FEE2E2] text-[#B91C1C]'
-                      : 'bg-[#FED7AA] text-[#C2410C]'
-                  }`}>
-                    {formatDeadline(a.deadline)}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
 
       {/* Nøkkeltall */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
@@ -168,12 +125,12 @@ export default function StatisticsPanel({ hidden, counts, applications }) {
             icon: '🤝',
           },
           {
-            label: 'Fått jobben',
-            value: counts['Fått jobben'],
-            suffix: '',
+            label: 'Intervju-konvertering',
+            value: intervjuKonvertering ?? '—',
+            suffix: intervjuKonvertering !== null ? '%' : '',
             sub: null,
-            color: '#065F46',
-            icon: '🏆',
+            color: '#7C3AED',
+            icon: '🎯',
           },
         ].map(({ label, value, suffix, sub, color, icon }) => (
           <div key={label} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">

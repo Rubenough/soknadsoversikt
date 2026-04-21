@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react'
 import ApplicationCard from '../ApplicationCard'
+import UpcomingEvents from './UpcomingEvents'
+import { getUpcomingEvents } from '../../utils/dates'
 
 const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
 
@@ -34,6 +36,8 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [sort, setSort] = useState('date-desc')
+
+  const upcomingEvents = useMemo(() => getUpcomingEvents(applications), [applications])
 
   const showingClosed = filterStatus === 'avsluttede'
 
@@ -85,6 +89,9 @@ export default function ApplicationsPanel({ hidden, counts, applications, loadin
           ))}
         </div>
       </section>
+
+      {/* Kommende hendelser */}
+      <UpcomingEvents events={upcomingEvents} onEventClick={onCardClick} />
 
       {/* Verktøylinje */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
