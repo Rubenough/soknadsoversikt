@@ -32,8 +32,12 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
   if (interview_round) {
     for (let r = 1; r <= interview_round; r++) {
       const details = interview_details?.[String(r)]
+      const interviewDate = details?.interview_date ? formatDate(details.interview_date) : null
+      const interviewTime = details?.interview_time ? formatTime(details.interview_time) : null
+      const dateStr = [interviewDate, interviewTime].filter(Boolean).join(' ')
       steps.push({
         label: `Intervju — runde ${r}`,
+        date: dateStr || null,
         color: '#10B981',
         details,
       })
@@ -50,6 +54,9 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
     const outcomeColor = outcome === 'Fått jobben' ? '#059669' : outcome === 'Avslag' ? '#DC2626' : '#64748B'
     steps.push({ label: outcome, color: outcomeColor })
   }
+
+  // Determine which step is the "current" active one (last step = current position)
+  const currentStepIndex = steps.length - 1
 
   return (
     <Modal
@@ -164,29 +171,40 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
             <ol aria-label="Tidslinje for søknadsprosessen" className="relative ml-3">
               {steps.map((step, i) => {
                 const isLast = i === steps.length - 1
+                const isCurrent = i === currentStepIndex
                 return (
-                  <li key={i} className="relative pb-5 last:pb-0">
+                  <li key={i} className={`relative ${isLast ? 'pb-0' : 'pb-5'}`}>
                     {/* Vertical line */}
                     {!isLast && (
                       <span
-                        className="absolute left-0 top-2.5 w-px h-full"
-                        style={{ backgroundColor: '#E2E8F0' }}
+                        className="absolute left-0 top-3 w-px"
+                        style={{
+                          backgroundColor: '#E2E8F0',
+                          height: 'calc(100% - 4px)',
+                        }}
                         aria-hidden="true"
                       />
                     )}
-                    {/* Dot */}
+                    {/* Dot — current step is larger with pulse ring */}
                     <span
-                      className="absolute left-0 top-1 w-2.5 h-2.5 rounded-full -translate-x-1/2 ring-2 ring-white"
+                      className={`absolute left-0 -translate-x-1/2 rounded-full ring-2 ring-white ${
+                        isCurrent ? 'top-0.5 w-3 h-3 ring-[3px]' : 'top-1 w-2.5 h-2.5'
+                      }`}
                       style={{ backgroundColor: step.color }}
                       aria-hidden="true"
                     />
                     {/* Content */}
                     <div className="ml-5">
-                      <p className="text-sm font-medium text-[#0F172A]">
+                      <p className={`text-sm text-[#0F172A] ${isCurrent ? 'font-semibold' : 'font-medium'}`}>
                         {step.label}
+                        {isCurrent && !outcome && (
+                          <span className="text-xs font-normal text-[#64748B] ml-1.5">
+                            (nåværende)
+                          </span>
+                        )}
                       </p>
                       {step.date && (
-                        <p className="text-xs text-[#64748B]">{step.date}</p>
+                        <p className="text-xs text-[#64748B] mt-0.5">{step.date}</p>
                       )}
                       {/* Interview details sub-card */}
                       {step.details && (
@@ -206,37 +224,28 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
 
 function InterviewDetailsCard({ details }) {
   const { contact_person, interview_date, interview_time, meeting_link, meeting_id, passcode } = details
-  const hasContent = contact_person || interview_date || interview_time || meeting_link || meeting_id || passcode
-
+  const hasContent = contact_person || meeting_link || meeting_id || passcode
+  // Date/time shown on the timeline step itself, so only show non-date details here
   if (!hasContent) return null
 
   return (
-    <div className="mt-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs space-y-1">
+    <div className="mt-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-2.5 text-xs space-y-1.5">
       {contact_person && (
         <p className="text-[#475569]">
           <span className="font-medium text-[#64748B]">Kontakt:</span> {contact_person}
         </p>
       )}
-      {(interview_date || interview_time) && (
-        <p className="text-[#475569]">
-          <span className="font-medium text-[#64748B]">Tidspunkt:</span>{' '}
-          {interview_date ? formatDate(interview_date) : ''}{' '}
-          {interview_time ? formatTime(interview_time) : ''}
-        </p>
-      )}
       {meeting_link && (
-        <p>
-          <a
-            href={meeting_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Åpne møtelenke (åpnes i ny fane)"
-            className="text-[#2563EB] hover:underline inline-flex items-center gap-1"
-          >
-            Bli med i møtet
-            <span aria-hidden="true">↗</span>
-          </a>
-        </p>
+        <a
+          href={meeting_link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Åpne møtelenke (åpnes i ny fane)"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB] text-white rounded-md font-medium hover:bg-[#1D4ED8] transition-colors focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2"
+        >
+          Bli med i møtet
+          <span aria-hidden="true">↗</span>
+        </a>
       )}
       {meeting_id && (
         <p className="text-[#475569]">
