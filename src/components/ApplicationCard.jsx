@@ -2,10 +2,17 @@ import Badge from './ui/Badge'
 import { formatDate, daysUntil } from '../utils/dates'
 
 export default function ApplicationCard({ application, onClick }) {
-  const { company, position, status, outcome, interview_round, applied_at, deadline, portal, contact, notes } = application
+  const { company, position, status, outcome, interview_round, applied_at, deadline, portal, contact, notes, interview_details } = application
+  const hasClosed = Boolean(outcome)
   const days = daysUntil(deadline)
-  const deadlineUrgent = days !== null && days <= 3 && days >= 0
-  const deadlinePassed = days !== null && days < 0
+  const deadlineUrgent = !hasClosed && days !== null && days <= 3 && days >= 0
+  const deadlinePassed = !hasClosed && days !== null && days < 0
+
+  // Get interview date/time for current round
+  const roundDetails = interview_round ? interview_details?.[String(interview_round)] : null
+  const interviewDate = roundDetails?.interview_date ? formatDate(roundDetails.interview_date) : null
+  const interviewTime = roundDetails?.interview_time ? `kl. ${roundDetails.interview_time}` : null
+  const interviewDateStr = [interviewDate, interviewTime].filter(Boolean).join(' ')
 
   return (
     <article
@@ -34,10 +41,13 @@ export default function ApplicationCard({ application, onClick }) {
         </div>
       </div>
 
-      {/* Intervjurunde */}
+      {/* Intervjurunde + dato */}
       {interview_round && (
         <p className="text-xs font-medium text-[#10B981]">
           Intervju runde {interview_round}
+          {interviewDateStr && (
+            <span className="text-[#64748B] font-normal ml-1.5">— {interviewDateStr}</span>
+          )}
         </p>
       )}
 
@@ -48,8 +58,8 @@ export default function ApplicationCard({ application, onClick }) {
         {contact && <span>Kontakt: {contact}</span>}
       </div>
 
-      {/* Frist */}
-      {deadline && (
+      {/* Frist — skjul for avsluttede søknader */}
+      {deadline && !hasClosed && (
         <p className={`text-xs font-medium ${deadlinePassed ? 'text-[#B91C1C]' : deadlineUrgent ? 'text-[#B45309]' : 'text-[#475569]'}`}>
           Frist: {formatDate(deadline)}
           {deadlinePassed && ' — utløpt'}

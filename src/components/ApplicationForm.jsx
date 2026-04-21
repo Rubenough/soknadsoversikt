@@ -23,12 +23,21 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
-    setFields(initial ?? EMPTY)
+    const init = initial ? { ...initial, interview_details: initial.interview_details ?? {} } : EMPTY
+    setFields(init)
     setErrors({})
   }, [initial])
 
   function set(key, value) {
-    setFields(prev => ({ ...prev, [key]: value }))
+    setFields(prev => {
+      const next = { ...prev, [key]: value }
+      // Rens intervjudetaljer når status endres bort fra Intervju/Tilbud
+      if (key === 'status' && value !== 'Intervju' && value !== 'Tilbud') {
+        next.interview_round = ''
+        next.interview_details = {}
+      }
+      return next
+    })
     if (errors[key]) setErrors(prev => ({ ...prev, [key]: '' }))
   }
 
@@ -144,7 +153,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
               Intervjudetaljer — Runde {fields.interview_round}
             </legend>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-              <FieldGroup label="Kontaktperson" htmlFor="field-iv-contact">
+              <FieldGroup label="Kontakt for intervjuet" htmlFor="field-iv-contact">
                 <input
                   id="field-iv-contact"
                   type="text"
@@ -277,7 +286,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
 
         {/* Kontaktperson */}
         <div className="sm:col-span-2">
-          <FieldGroup label="Kontaktperson" htmlFor="field-contact">
+          <FieldGroup label="Kontaktperson hos bedriften" htmlFor="field-contact">
             <input
               id="field-contact"
               name="contact"
