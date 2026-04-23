@@ -46,9 +46,7 @@ export default function PrivacyPage() {
               <li><strong>Søknadsdata</strong> — bedrift, stilling, portal, søknadsdato, frist, status, utfall, intervjurunde, kontaktperson og notater.</li>
             </ul>
             <p className="leading-relaxed mt-3">
-              Vi samler <strong>ikke</strong> inn informasjonskapsler (cookies), IP-adresser for sporing,
-              enhetsdata eller atferdsdata. Det finnes ingen analyseverktøy, annonsenettverk eller tredjeparts
-              sporingspiksler på tjenesten.
+              Vi bruker <strong>ingen</strong> tredjeparts sporingspiksler, annonsenettverk eller atferdssporing. Tjenesten bruker anonymisert trafikkstatistikk via Vercel for å forstå generell bruk, uten å koble data til enkeltpersoner.
             </p>
           </section>
 
