@@ -205,6 +205,12 @@ src/
 
 ## Forbedringer etter lansering
 
+## Nye funksjonaliteter
+
+- [ ] Når noen velger finn som kilde, skal det komme link muligheter for å lagre finn.no annonsen til senere referanse mtp jobbstilling
+      eventutelt bare ha link muligheter som valg ved kilde. Dette anbefaler NITO med tanke på stillingen hvis man får den, er stillingen forskjellig fra annonsen så er det kontraktsbrudd kort fortalt.
+- [ ] ved intervjurunder, skal det også være mulighet for å legge inn notater for det spesifikke intervjuet. kanskje ha en egen hurtigsted for intervju-notater?
+
 ### Funksjonalitet
 
 - [x] Sortering på søknadslisten — dato, bedrift, frist
