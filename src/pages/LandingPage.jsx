@@ -116,11 +116,11 @@ export default function LandingPage() {
             </p>
 
             <h1 id="hero-heading" className="text-[clamp(2rem,5vw,3rem)] font-extrabold leading-[1.15] text-white mb-5 text-balance">
-              Hold styr på jobbsøknadene dine, uten stress
+              Hold styr på jobbsøknadene dine, uten kluss
             </h1>
 
             <p className="text-lg text-white/88 mb-10 max-w-140 mx-auto leading-relaxed">
-              Husker du hvilken portal du søkte via? Logg søknadene dine ett sted med portal, status og frister samlet. Slipp å logge inn overalt for å finne dem igjen.
+              Samle søknadene dine på ett sted. Status, frister og statistikk over jobbsøkingen din, med lenke til søknadsportalen.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
