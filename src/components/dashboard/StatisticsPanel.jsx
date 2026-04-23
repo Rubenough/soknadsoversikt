@@ -177,11 +177,12 @@ export default function StatisticsPanel({ hidden, applications }) {
           {tidStats.snittTilUtfall !== null && (
             <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
               <span className="text-base" aria-hidden="true">📅</span>
-              <span className="sr-only">Snitt dager til svar: {tidStats.snittTilUtfall} dager</span>
+              <span className="sr-only">Snitt dager fra søknad til svar: {tidStats.snittTilUtfall} dager</span>
               <span className="text-2xl font-bold tabular-nums text-[#B45309]" aria-hidden="true">
                 {tidStats.snittTilUtfall}d
               </span>
               <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">Snitt dager til svar</span>
+              <span className="text-[10px] text-[#94A3B8]" aria-hidden="true">fra søknad sendt</span>
             </div>
           )}
         </div>
