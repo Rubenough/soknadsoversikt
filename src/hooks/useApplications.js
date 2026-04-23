@@ -41,6 +41,7 @@ export function useApplications(userId) {
     const payload = { ...fields, user_id: userId }
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
+    if (!payload.outcome_date) payload.outcome_date = null
     if (!payload.interview_round) payload.interview_round = null
     payload.interview_details = cleanInterviewDetails(payload.interview_details)
     const { data, error } = await supabase
@@ -57,6 +58,7 @@ export function useApplications(userId) {
     const payload = { ...fields }
     if (!payload.deadline) payload.deadline = null
     if (!payload.outcome) payload.outcome = null
+    if (!payload.outcome_date) payload.outcome_date = null
     if (!payload.interview_round) payload.interview_round = null
     payload.interview_details = cleanInterviewDetails(payload.interview_details)
     const { data, error } = await supabase

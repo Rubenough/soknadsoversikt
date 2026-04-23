@@ -87,6 +87,27 @@ export default function StatisticsPanel({ hidden, applications }) {
     return Math.round((converted / interviewed) * 100)
   }, [applications])
 
+  const tidStats = useMemo(() => {
+    const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000)
+
+    const tilIntervju = applications
+      .filter(a => a.applied_at && a.interview_details?.['1']?.interview_date)
+      .map(a => daysBetween(a.applied_at, a.interview_details['1'].interview_date))
+      .filter(d => d >= 0)
+
+    const tilUtfall = applications
+      .filter(a => a.applied_at && a.outcome_date)
+      .map(a => daysBetween(a.applied_at, a.outcome_date))
+      .filter(d => d >= 0)
+
+    const avg = arr => arr.length ? Math.round(arr.reduce((s, n) => s + n, 0) / arr.length) : null
+
+    return {
+      snittTilIntervju: avg(tilIntervju),
+      snittTilUtfall: avg(tilUtfall),
+    }
+  }, [applications])
+
   return (
     <section
       id="panel-statistikk"
@@ -104,7 +125,6 @@ export default function StatisticsPanel({ hidden, applications }) {
             label: 'Totalt sendt',
             value: total,
             suffix: '',
-            sub: null,
             color: '#1E3A6B',
             icon: '📋',
           },
@@ -112,7 +132,6 @@ export default function StatisticsPanel({ hidden, applications }) {
             label: 'Svarrate',
             value: svarrate ?? '—',
             suffix: svarrate !== null ? '%' : '',
-            sub: null,
             color: '#1D4ED8',
             icon: '📬',
           },
@@ -120,7 +139,6 @@ export default function StatisticsPanel({ hidden, applications }) {
             label: 'Intervjurate',
             value: intervjurate ?? '—',
             suffix: intervjurate !== null ? '%' : '',
-            sub: null,
             color: '#047857',
             icon: '🤝',
           },
@@ -128,11 +146,10 @@ export default function StatisticsPanel({ hidden, applications }) {
             label: 'Intervju-konvertering',
             value: intervjuKonvertering ?? '—',
             suffix: intervjuKonvertering !== null ? '%' : '',
-            sub: null,
             color: '#7C3AED',
             icon: '🎯',
           },
-        ].map(({ label, value, suffix, sub, color, icon }) => (
+        ].map(({ label, value, suffix, color, icon }) => (
           <div key={label} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
             <span className="text-base" aria-hidden="true">{icon}</span>
             <span className="sr-only">{label}: {value}{suffix}</span>
@@ -140,10 +157,35 @@ export default function StatisticsPanel({ hidden, applications }) {
               {value}{suffix}
             </span>
             <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">{label}</span>
-            {sub && <span className="text-[10px] text-[#64748B]" aria-hidden="true">{sub}</span>}
           </div>
         ))}
       </div>
+
+      {/* Responstid */}
+      {(tidStats.snittTilIntervju !== null || tidStats.snittTilUtfall !== null) && (
+        <div className={`grid gap-3 mb-5 ${tidStats.snittTilIntervju !== null && tidStats.snittTilUtfall !== null ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {tidStats.snittTilIntervju !== null && (
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
+              <span className="text-base" aria-hidden="true">⏱️</span>
+              <span className="sr-only">Snitt dager til intervju: {tidStats.snittTilIntervju} dager</span>
+              <span className="text-2xl font-bold tabular-nums text-[#047857]" aria-hidden="true">
+                {tidStats.snittTilIntervju}d
+              </span>
+              <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">Snitt dager til intervju</span>
+            </div>
+          )}
+          {tidStats.snittTilUtfall !== null && (
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col gap-1">
+              <span className="text-base" aria-hidden="true">📅</span>
+              <span className="sr-only">Snitt dager til svar: {tidStats.snittTilUtfall} dager</span>
+              <span className="text-2xl font-bold tabular-nums text-[#B45309]" aria-hidden="true">
+                {tidStats.snittTilUtfall}d
+              </span>
+              <span className="text-xs text-[#64748B] font-medium" aria-hidden="true">Snitt dager til svar</span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
         {/* Søknader per uke */}

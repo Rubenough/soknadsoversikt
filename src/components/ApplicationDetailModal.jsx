@@ -11,7 +11,7 @@ function statusIndex(status) {
 export default function ApplicationDetailModal({ application, isOpen, onClose, onEdit, onDelete }) {
   if (!application) return null
 
-  const { company, position, status, outcome, interview_round, portal, url, applied_at, deadline, contact, notes, interview_details } = application
+  const { company, position, status, outcome, outcome_date, interview_round, portal, url, applied_at, deadline, contact, notes, interview_details } = application
   const days = daysUntil(deadline)
   const deadlineUrgent = days !== null && days <= 3 && days >= 0
   const deadlinePassed = days !== null && days < 0
@@ -52,7 +52,7 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
   // 5. Outcome
   if (outcome) {
     const outcomeColor = outcome === 'Fått jobben' ? '#059669' : outcome === 'Avslag' ? '#DC2626' : '#64748B'
-    steps.push({ label: outcome, color: outcomeColor })
+    steps.push({ label: outcome, date: outcome_date ? formatDate(outcome_date) : null, color: outcomeColor })
   }
 
   // Determine which step is the "current" active one (last step = current position)

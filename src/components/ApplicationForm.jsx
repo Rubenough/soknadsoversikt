@@ -8,6 +8,7 @@ const EMPTY = {
   position: '',
   status: 'Sendt',
   outcome: '',
+  outcome_date: '',
   interview_round: '',
   portal: '',
   url: '',
@@ -35,6 +36,10 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
       if (key === 'status' && value !== 'Intervju' && value !== 'Tilbud') {
         next.interview_round = ''
         next.interview_details = {}
+      }
+      // Rens utfallsdato når utfall fjernes
+      if (key === 'outcome' && !value) {
+        next.outcome_date = ''
       }
       return next
     })
@@ -230,6 +235,20 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
             </select>
           </FieldGroup>
         </div>
+
+        {/* Dato for utfall — vises kun når utfall er valgt */}
+        {fields.outcome && (
+          <FieldGroup label="Dato for utfall" htmlFor="field-outcome_date">
+            <input
+              id="field-outcome_date"
+              name="outcome_date"
+              type="date"
+              value={fields.outcome_date ?? ''}
+              onChange={e => set('outcome_date', e.target.value)}
+              className={inputClass()}
+            />
+          </FieldGroup>
+        )}
 
         {/* Kilde */}
         <FieldGroup label="Kilde" htmlFor="field-portal">
