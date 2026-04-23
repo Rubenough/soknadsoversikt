@@ -105,25 +105,6 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
           </div>
         </div>
 
-        {/* Outcome banner */}
-        {outcome && (
-          <div className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium ${
-            outcome === 'Fått jobben'
-              ? 'bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]'
-              : outcome === 'Avslag'
-              ? 'bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA]'
-              : 'bg-[#F8FAFC] text-[#475569] border border-[#E2E8F0]'
-          }`}>
-            <span aria-hidden="true">
-              {outcome === 'Fått jobben' ? '🎉' : outcome === 'Avslag' ? '✕' : '↩'}
-            </span>
-            <span>{outcome}</span>
-            {outcome_date && (
-              <span className="ml-auto text-xs font-normal opacity-75">{formatDate(outcome_date)}</span>
-            )}
-          </div>
-        )}
-
         {/* Metadata */}
         <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
           {applied_at && (

@@ -37,9 +37,13 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
         next.interview_round = ''
         next.interview_details = {}
       }
-      // Rens utfallsdato når utfall fjernes
-      if (key === 'outcome' && !value) {
-        next.outcome_date = ''
+      // Sett dagens dato automatisk når utfall velges første gang, rens når utfall fjernes
+      if (key === 'outcome') {
+        if (!value) {
+          next.outcome_date = ''
+        } else if (!prev.outcome_date) {
+          next.outcome_date = new Date().toISOString().slice(0, 10)
+        }
       }
       return next
     })
