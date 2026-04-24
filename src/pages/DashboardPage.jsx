@@ -122,7 +122,9 @@ export default function DashboardPage() {
   async function handleDeleteAccount() {
     setDeletingAccount(true)
     try {
-      const { error } = await supabase.functions.invoke('delete-account')
+      const { error } = await supabase.functions.invoke('delete-account', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      })
       if (error) throw error
       await signOut()
     } catch {
