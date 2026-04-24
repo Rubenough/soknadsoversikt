@@ -29,11 +29,11 @@ export default function SettingsPanel({ hidden, session, onExport, onDeleteAll, 
 
         <SettingsCard title="Slett alle søknadsdata" danger>
           <p className="text-sm text-[#475569] mb-3">
-            Sletter alle søknadene dine permanent og logger deg ut. Denne handlingen kan ikke angres — last ned data først hvis du vil beholde en kopi.
+            Sletter alle søknadene dine permanent. Denne handlingen kan ikke angres — last ned data først hvis du vil beholde en kopi.
           </p>
           <button
             onClick={onDeleteAll}
-            aria-label="Slett alle søknadsdata permanent og logg ut"
+            aria-label="Slett alle søknadsdata permanent"
             className="h-10 px-5 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold text-sm rounded-lg flex items-center gap-2 transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
           >
             <span aria-hidden="true">🗑️</span>

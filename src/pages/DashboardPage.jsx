@@ -44,6 +44,7 @@ export default function DashboardPage() {
   const [deleting, setDeleting] = useState(false)
   const [detailTarget, setDetailTarget] = useState(null)
   const [deleteAllOpen, setDeleteAllOpen] = useState(false)
+  const [deletingAll, setDeletingAll] = useState(false)
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false)
   const [deletingAccount, setDeletingAccount] = useState(false)
 
@@ -105,12 +106,16 @@ export default function DashboardPage() {
   }
 
   async function handleDeleteAll() {
+    setDeletingAll(true)
     try {
       await Promise.all(applications.map(app => deleteApplication(app.id)))
-      await signOut()
+      setDeleteAllOpen(false)
+      announce('Alle søknadsdata er slettet')
     } catch {
       announce('Noe gikk galt under sletting — prøv igjen')
       setDeleteAllOpen(false)
+    } finally {
+      setDeletingAll(false)
     }
   }
 
@@ -393,15 +398,16 @@ export default function DashboardPage() {
             </button>
             <button
               onClick={handleDeleteAll}
-              className="h-10 px-5 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
+              disabled={deletingAll}
+              className="h-10 px-5 bg-[#DC2626] hover:bg-[#B91C1C] disabled:bg-[#E2E8F0] disabled:text-[#94A3B8] disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-[#DC2626] focus-visible:outline-offset-2"
             >
-              Slett alt og logg ut
+              {deletingAll ? 'Sletter…' : 'Slett alle søknadsdata'}
             </button>
           </>
         }
       >
         <p className="text-sm text-[#475569]">
-          Dette sletter alle søknadene dine og logger deg ut. Handlingen kan ikke angres.
+          Dette sletter alle søknadene dine permanent. Handlingen kan ikke angres.
           Last ned data først hvis du vil beholde en kopi.
         </p>
       </Modal>
