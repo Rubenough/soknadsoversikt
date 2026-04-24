@@ -17,10 +17,13 @@ Gratis søknadstracker for norske jobbsøkere. React + Vite + Supabase + Tailwin
 
 ```
 applications
-  id, user_id, company, position, portal, url
-  applied_at, deadline, status, outcome, interview_round
+  id, user_id, company, position, source, url
+  applied_at, deadline, status, outcome, outcome_date
+  interview_round, interview_details (JSONB)
   contact, notes, created_at, updated_at
 ```
+
+`interview_details` er JSONB med struktur: `{ "1": { contact_person, interview_date, interview_time, meeting_link, meeting_id, passcode }, "2": { ... } }`
 
 ### Hva som er bygget
 
@@ -54,26 +57,37 @@ src/
   pages/
     LandingPage.jsx
     LoginPage.jsx
-    DashboardPage.jsx         # appskall: auth, data, tabs, modaler
+    DashboardPage.jsx             # appskall: auth, data, tabs, modaler
+    PrivacyPage.jsx
+    NotFoundPage.jsx
   components/
     dashboard/
-      ApplicationsPanel.jsx   # søknader-fane: liste, søk, filter, chips
-      StatisticsPanel.jsx     # statistikk-fane: grafer, tips
-      SettingsPanel.jsx       # innstillinger-fane: konto, eksport, slett
+      ApplicationsPanel.jsx       # søknader-fane: liste, søk, filter, sortering
+      StatisticsPanel.jsx         # statistikk-fane: grafer, pipeline, affiliatetips
+      SettingsPanel.jsx           # innstillinger-fane: konto, eksport, slett
+      UpcomingEvents.jsx          # kommende frister og intervjuer (14 dager)
     ApplicationCard.jsx
     ApplicationForm.jsx
+    ApplicationDetailModal.jsx    # detaljvisning med rediger/slett
     ProtectedRoute.jsx
     ui/
       Modal.jsx
       Badge.jsx
       StatusMessage.jsx
+      ErrorBoundary.jsx           # error boundary, norsk feilmelding, stack trace kun i dev
   hooks/
     useAuth.js
     useApplications.js
   data/
-    resources.js              # delt kilde for ressurslenker (LandingPage + StatisticsPanel)
+    resources.js                  # delt kilde for ressurslenker (LandingPage + StatisticsPanel)
+  utils/
+    dates.js                      # datoformatering, fristberegning, kommende events
   lib/
     supabase.js
+
+supabase/
+  functions/
+    delete-account/               # Edge Function: slett bruker fra auth.users + søknadsdata
 ```
 
 ---

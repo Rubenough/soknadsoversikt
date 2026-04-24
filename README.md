@@ -9,11 +9,13 @@ Gratis jobbsøknadstracker for norske jobbsøkere. Logg søknader, følg statuse
 - Magic link-innlogging (ingen passord)
 - Legg til, rediger og slett søknader
 - Status-tracking: Sendt → Til vurdering → Intervju → Tilbud
-- Utfall: Avslag / Fått jobben / Trukket søknad
-- Intervjurunde (1–4)
-- Søk og filtrering på status og utfall
-- Statistikk: nøkkeltall, statusoversikt og donut-chart
+- Utfall: Avslag / Fått jobben / Trukket søknad med dato
+- Intervjurunde (1–4) med kontaktperson, dato/tid og møtelenke per runde
+- Søk og filtrering på status/utfall, sortering på dato/bedrift/frist
+- Kommende frister og intervjuer (neste 14 dager)
+- Statistikk: nøkkeltall, pipeline-funnel, søknader per uke (siste 8 uker)
 - Eksporter alle søknader som JSON
+- Slett konto (fjerner bruker + data via Edge Function)
 - Personvernerklæring og 404-side
 - Tilgjengelig (WCAG 2.1 AA), responsivt design
 
@@ -32,17 +34,20 @@ Gratis jobbsøknadstracker for norske jobbsøkere. Logg søknader, følg statuse
 ```
 src/
 ├── components/
-│   ├── ApplicationCard.jsx       søknadskort med status og utfallsbadge
-│   ├── ApplicationForm.jsx       skjema med validering
-│   ├── ProtectedRoute.jsx        videresender uinnloggede til /login
+│   ├── ApplicationCard.jsx         søknadskort med status og utfallsbadge
+│   ├── ApplicationForm.jsx         skjema med validering
+│   ├── ApplicationDetailModal.jsx  detaljvisning med rediger/slett
+│   ├── ProtectedRoute.jsx          videresender uinnloggede til /login
 │   └── ui/
-│       ├── Badge.jsx             statusbadger (WCAG AA-kontrast)
-│       ├── Modal.jsx             tilgjengelig modal med focus trap
-│       └── StatusMessage.jsx     aria-live region for skjermlesere
+│       ├── Badge.jsx               statusbadger (WCAG AA-kontrast)
+│       ├── Modal.jsx               tilgjengelig modal med focus trap
+│       ├── StatusMessage.jsx       aria-live region for skjermlesere
+│       └── ErrorBoundary.jsx       error boundary med norsk feilmelding
 ├── components/dashboard/
-│   ├── ApplicationsPanel.jsx     søknadsliste med søk og filter
-│   ├── StatisticsPanel.jsx       statistikk og grafer
-│   └── SettingsPanel.jsx         eksport og sletting
+│   ├── ApplicationsPanel.jsx       søknadsliste med søk, filter og sortering
+│   ├── StatisticsPanel.jsx         statistikk og grafer
+│   ├── SettingsPanel.jsx           eksport og sletting
+│   └── UpcomingEvents.jsx          frister og intervjuer neste 14 dager
 ├── pages/
 │   ├── LandingPage.jsx
 │   ├── LoginPage.jsx
@@ -50,10 +55,18 @@ src/
 │   ├── PrivacyPage.jsx
 │   └── NotFoundPage.jsx
 ├── hooks/
-│   ├── useApplications.js        Supabase CRUD
-│   └── useAuth.js                session-state + magic link
-└── lib/
-    └── supabase.js
+│   ├── useApplications.js          Supabase CRUD
+│   └── useAuth.js                  session-state + magic link
+├── lib/
+│   └── supabase.js
+├── utils/
+│   └── dates.js                    datoformatering og fristberegning
+└── data/
+    └── resources.js                affiliatelenker (delt mellom LandingPage og StatisticsPanel)
+
+supabase/
+└── functions/
+    └── delete-account/             Edge Function: slett bruker fra auth + all søknadsdata
 ```
 
 ## Ruter
