@@ -1,0 +1,3 @@
+- [Kodebase ARIA-mønstre](project_aria_patterns.md) — Etablerte tilgjengelighetsmønstre i komponenter: Modal, ApplicationCard, ApplicationDetailModal
+- [UI-mønster analyse](project_ui_pattern_analysis.md) — WCAG-analyse av collapsible/tabs/tidslinje for intervjurunde-notater (2026-04-25)
+- [Disclosure auto-kollaps](project_disclosure_autocollapse.md) — WCAG-krav for InterviewDetailsCard: hidden-attributt, rundenummer i ID og tekst, touch target, ingen aria-live på initialtilstand

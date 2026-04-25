@@ -1,0 +1,2 @@
+- [Intervju-UI analyse](project_interview_notes_pattern.md) — Anbefalt UI-mønster for notat per intervjurunde: inline expand i tidslinje, ikke tabs/modal
+- [Eksisterende designmønstre](project_existing_patterns.md) — Nøkkelmønstre i kodebasen: farge-tokens, tidslinje, InterviewDetailsCard, progressiv disclosure
