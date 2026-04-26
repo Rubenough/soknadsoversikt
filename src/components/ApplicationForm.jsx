@@ -220,6 +220,18 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   className={inputClass()}
                 />
               </FieldGroup>
+              <div className="sm:col-span-2">
+                <FieldGroup label="Notat om runden" htmlFor="field-iv-notes">
+                  <textarea
+                    id="field-iv-notes"
+                    value={currentRoundDetails.notes || ''}
+                    onChange={e => setInterviewDetail('notes', e.target.value)}
+                    rows={2}
+                    placeholder="Hvordan gikk runden? Egne notater og refleksjoner…"
+                    className={`${inputClass()} resize-y min-h-20`}
+                  />
+                </FieldGroup>
+              </div>
             </div>
           </fieldset>
         )}
@@ -332,7 +344,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
               onChange={e => set('notes', e.target.value)}
               rows={3}
               placeholder="Egne notater, tips, oppfølgingspunkter…"
-              className={inputClass() + ' resize-y min-h-20'}
+              className={`${inputClass()} resize-y min-h-20`}
             />
           </FieldGroup>
         </div>

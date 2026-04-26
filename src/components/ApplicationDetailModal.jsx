@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import Modal from './ui/Modal'
 import Badge from './ui/Badge'
-import { formatDate, daysUntil, formatTime } from '../utils/dates'
+import { formatDate, daysUntil, formatTime, isPastDate } from '../utils/dates'
 
 const STATUS_ORDER = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
 
@@ -40,6 +41,7 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
         date: dateStr || null,
         color: '#10B981',
         details,
+        roundNumber: r,
       })
     }
   }
@@ -208,7 +210,7 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
                       )}
                       {/* Interview details sub-card */}
                       {step.details && (
-                        <InterviewDetailsCard details={step.details} />
+                        <InterviewDetailsCard details={step.details} roundNumber={step.roundNumber} />
                       )}
                     </div>
                   </li>
@@ -222,42 +224,70 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
   )
 }
 
-function InterviewDetailsCard({ details }) {
-  const { contact_person, meeting_link, meeting_id, passcode } = details
-  const hasContent = contact_person || meeting_link || meeting_id || passcode
-  // Date/time shown on the timeline step itself, so only show non-date details here
-  if (!hasContent) return null
+function InterviewDetailsCard({ details, roundNumber }) {
+  const { contact_person, meeting_link, meeting_id, passcode, notes } = details
+  const hasLogistics = contact_person || meeting_link || meeting_id || passcode
+  const isPast = isPastDate(details.interview_date)
+  const [isLogisticsOpen, setIsLogisticsOpen] = useState(false)
+  const logisticsHidden = isPast && !isLogisticsOpen
+
+  if (!hasLogistics && !notes) return null
 
   return (
-    <div className="mt-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-2.5 text-xs space-y-1.5">
-      {contact_person && (
+    <div className="mt-2 text-xs space-y-1.5">
+      {notes && (
         <p className="text-[#475569]">
-          <span className="font-medium text-[#64748B]">Kontakt:</span> {contact_person}
+          <span className="font-medium text-[#64748B]">Notat:</span> {notes}
         </p>
       )}
-      {meeting_link && (
-        <p>
-          <a
-            href={meeting_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Åpne møtelenke (åpnes i ny fane)"
-            className="text-sm text-[#2563EB] hover:underline inline-flex items-center gap-1 font-medium"
-          >
-            Bli med i møtet
-            <span aria-hidden="true">↗</span>
-          </a>
-        </p>
+      {hasLogistics && isPast && (
+        <button
+          onClick={() => setIsLogisticsOpen(v => !v)}
+          aria-expanded={isLogisticsOpen}
+          aria-controls={`intervju-logistikk-runde-${roundNumber}`}
+          className="min-h-11 text-xs text-[#2563EB] hover:underline font-medium"
+        >
+          {isLogisticsOpen
+            ? `Skjul møtedetaljer for runde ${roundNumber}`
+            : `Vis møtedetaljer for runde ${roundNumber}`}
+        </button>
       )}
-      {meeting_id && (
-        <p className="text-[#475569]">
-          <span className="font-medium text-[#64748B]">Møte-ID:</span> {meeting_id}
-        </p>
-      )}
-      {passcode && (
-        <p className="text-[#475569]">
-          <span className="font-medium text-[#64748B]">Kode:</span> {passcode}
-        </p>
+      {hasLogistics && (
+        <div
+          id={`intervju-logistikk-runde-${roundNumber}`}
+          hidden={logisticsHidden}
+          className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3 py-2.5 space-y-1.5"
+        >
+          {contact_person && (
+            <p className="text-[#475569]">
+              <span className="font-medium text-[#64748B]">Kontakt:</span> {contact_person}
+            </p>
+          )}
+          {meeting_link && (
+            <p>
+              <a
+                href={meeting_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Åpne møtelenke (åpnes i ny fane)"
+                className="text-sm text-[#2563EB] hover:underline inline-flex items-center gap-1 font-medium"
+              >
+                Bli med i møtet
+                <span aria-hidden="true">↗</span>
+              </a>
+            </p>
+          )}
+          {meeting_id && (
+            <p className="text-[#475569]">
+              <span className="font-medium text-[#64748B]">Møte-ID:</span> {meeting_id}
+            </p>
+          )}
+          {passcode && (
+            <p className="text-[#475569]">
+              <span className="font-medium text-[#64748B]">Kode:</span> {passcode}
+            </p>
+          )}
+        </div>
       )}
     </div>
   )

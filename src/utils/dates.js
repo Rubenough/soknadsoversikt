@@ -13,6 +13,15 @@ export function daysUntil(iso) {
   return Math.ceil((deadline - today) / 86400000)
 }
 
+export function isPastDate(iso) {
+  if (!iso) return false
+  const [y, m, d] = iso.split('-').map(Number)
+  const date = new Date(y, m - 1, d)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return date < today
+}
+
 export function formatTime(time) {
   if (!time) return null
   return `kl. ${time}`
