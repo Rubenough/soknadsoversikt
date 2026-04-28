@@ -82,6 +82,7 @@ src/
     resources.js                  # delt kilde for ressurslenker (LandingPage + StatisticsPanel)
   utils/
     dates.js                      # datoformatering, fristberegning, kommende events
+    url.js                        # isSafeUrl() — validerer at URL-protokoll er http/https
   lib/
     supabase.js
 
@@ -245,6 +246,7 @@ supabase/
 - [x] Suspense fallback — viser spinner ved lazy-load i stedet for `null`
 - [x] Fetch-feil synlig — `error` fra `useApplications` vises i `ApplicationsPanel`
 - [x] `handleDeleteAll` sikret — `try/catch` rundt `Promise.all` + `signOut`
+- [x] URL-validering — `isSafeUrl()` i `utils/url.js` blokkerer `javascript:`-URIer i `ApplicationDetailModal` (render-guard) og `ApplicationForm` (skjemavalidering)
 - [ ] Optimistisk UI — **vurdert og utsatt** (for lite bruk til å merke forsinkelse)
 - [ ] PWA / installbar — **vurdert og utsatt** (lav verdi med få brukere)
 - [ ] E2E-tester — **vurdert og utsatt** (overhead ikke verdt det på dette stadiet)

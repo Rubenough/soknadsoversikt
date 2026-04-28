@@ -42,7 +42,7 @@ src/
     ApplicationCard, ApplicationForm, ApplicationDetailModal, ProtectedRoute
   hooks/           useAuth.js, useApplications.js
   lib/             supabase.js
-  utils/           dates.js
+  utils/           dates.js, url.js
   data/            resources.js (delt kilde for affiliatelenker)
 supabase/
   functions/
@@ -68,6 +68,8 @@ Alle sider er lazy-lastet med `React.lazy` + `Suspense`.
 **Modal** — har innebygd fokusfelle (Tab/Shift+Tab), Escape-lukking og returnerer fokus til utløserknappen ved lukking.
 
 **`cleanInterviewDetails`** i `useApplications` stripper intervjurunder med alle tomme felt før lagring til Supabase.
+
+**`isSafeUrl`** i `utils/url.js` — validerer at URL-protokoll er `http:` eller `https:`. Bruk denne som guard rundt alle `<a href={userValue}>` i stedet for å rendre lenken direkte. Render-siden i `ApplicationDetailModal` er den reelle sikkerhetsgrensen; skjemavalidering er et ekstra lag.
 
 ---
 
