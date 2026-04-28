@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { isSafeUrl } from '../utils/url'
 
 const STATUSES = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
 const OUTCOMES = ['Avslag', 'Fått jobben', 'Trukket søknad']
@@ -55,6 +56,9 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
     if (!fields.company.trim())  e.company    = 'Bedriftsnavnet mangler — fyll det inn for å fortsette'
     if (!fields.position.trim()) e.position   = 'Stillingstittel mangler — fyll den inn for å fortsette'
     if (!fields.applied_at)      e.applied_at = 'Dato søkt mangler — velg en dato for å fortsette'
+    if (fields.url && !isSafeUrl(fields.url)) e.url = 'Lenken må starte med http:// eller https://'
+    const meetingLink = currentRoundDetails?.meeting_link
+    if (meetingLink && !isSafeUrl(meetingLink)) e['iv-link'] = 'Møtelenken må starte med http:// eller https://'
     return e
   }
 
@@ -190,15 +194,17 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
                   className={inputClass()}
                 />
               </FieldGroup>
-              <FieldGroup label="Møtelenke" htmlFor="field-iv-link">
+              <FieldGroup label="Møtelenke" htmlFor="field-iv-link" error={errors['iv-link']}>
                 <input
                   id="field-iv-link"
                   type="url"
                   value={currentRoundDetails.meeting_link || ''}
                   onChange={e => setInterviewDetail('meeting_link', e.target.value)}
                   placeholder="https://teams.microsoft.com/meet/..."
-                  className={inputClass()}
+                  aria-describedby={errors['iv-link'] ? 'err-iv-link' : undefined}
+                  className={inputClass(errors['iv-link'])}
                 />
+                {errors['iv-link'] && <ErrorMsg id="err-iv-link" msg={errors['iv-link']} />}
               </FieldGroup>
               <FieldGroup label="Møte-ID" htmlFor="field-iv-meeting-id">
                 <input
@@ -280,7 +286,7 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
         </FieldGroup>
 
         {/* Lenke */}
-        <FieldGroup label="Lenke til søknadsportal" htmlFor="field-url">
+        <FieldGroup label="Lenke til søknadsportal" htmlFor="field-url" error={errors.url}>
           <input
             id="field-url"
             name="url"
@@ -288,8 +294,10 @@ export default function ApplicationForm({ initial, onSubmit, onCancel, saving })
             value={fields.url}
             onChange={e => set('url', e.target.value)}
             placeholder="https://..."
-            className={inputClass()}
+            aria-describedby={errors.url ? 'err-url' : undefined}
+            className={inputClass(errors.url)}
           />
+          {errors.url && <ErrorMsg id="err-url" msg={errors.url} />}
         </FieldGroup>
 
         {/* Dato søkt */}

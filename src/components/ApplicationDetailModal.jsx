@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Modal from './ui/Modal'
 import Badge from './ui/Badge'
 import { formatDate, daysUntil, formatTime, isPastDate } from '../utils/dates'
+import { isSafeUrl } from '../utils/url'
 
 const STATUS_ORDER = ['Sendt', 'Til vurdering', 'Intervju', 'Tilbud']
 
@@ -137,7 +138,7 @@ export default function ApplicationDetailModal({ application, isOpen, onClose, o
               </dd>
             </div>
           )}
-          {url && (
+          {url && isSafeUrl(url) && (
             <div>
               <dt className="text-[#64748B] text-xs font-medium">Lenke</dt>
               <dd>
@@ -263,7 +264,7 @@ function InterviewDetailsCard({ details, roundNumber }) {
               <span className="font-medium text-[#64748B]">Kontakt:</span> {contact_person}
             </p>
           )}
-          {meeting_link && (
+          {meeting_link && isSafeUrl(meeting_link) && (
             <p>
               <a
                 href={meeting_link}
